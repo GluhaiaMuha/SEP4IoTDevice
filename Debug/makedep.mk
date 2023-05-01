@@ -24,6 +24,12 @@ FreeRTOS\src\timers.c
 
 FreeRTOS\src\variantHooks.c
 
+Impl\dataHandler.c
+
+Impl\sensorHandler.c
+
+Impl\temperature.c
+
 LoRaWANHandler.c
 
 main.c
