@@ -12,9 +12,11 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
-// Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+#include "Headers/dataHandler.h"
+
+// Parameters for OTAA join
+#define LORA_appEUI "E3F46724321C3AFF"
+#define LORA_appKEY "70392C359F1F97A044173202961DB664"
 
 void lora_handler_task( void *pvParameters );
 
@@ -31,6 +33,10 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 	,  NULL );
 }
 
+
+/************************************************************************/
+/* Don't touch, shit may happen                                         */
+/************************************************************************/
 static void _lora_setup(void)
 {
 	char _out_buf[20];
@@ -129,9 +135,9 @@ void lora_handler_task( void *pvParameters )
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-		// Some dummy payload
+
 		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
+		int16_t temp = dataHandler_getData();
 		uint16_t co2_ppm = 1050; // Dummy CO2
 
 		_uplink_payload.bytes[0] = hum >> 8;

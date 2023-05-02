@@ -285,6 +285,24 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Headers\dataHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Headers\sensorHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Headers\temperature.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Impl\dataHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Impl\sensorHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Impl\temperature.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="drivers\" />
@@ -292,6 +310,8 @@
     <Folder Include="FreeRTOS\" />
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
+    <Folder Include="Impl" />
+    <Folder Include="Headers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="drivers\.git">
