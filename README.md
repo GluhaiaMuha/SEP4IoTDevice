@@ -22,7 +22,7 @@ git clone https://github.com/GluhaiaMuha/SEP4IoTDevice.git --recursive
 
 | Plugin | README |
 | ------ | ------ |
-| FreeRTOS | [FreeRTOS/readme.md][PlDb] |
+| FreeRTOS | [FreeRTOS/README.md][PlDb] |
 | Drivers | [drivers/README.md][PlGh] |
 
 
@@ -42,9 +42,6 @@ git clone https://github.com/GluhaiaMuha/SEP4IoTDevice.git --recursive
    [AngularJS]: <http://angularjs.org>
    [Gulp]: <http://gulpjs.com>
 
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+   [PlDb]: <https://github.com/ihavn/VIA_FreeRTOS_AVRMEGA/blob/5bf0993e13bd63bfdbb774712925a25cfc65a427/readme.md>
+   [PlGh]: <https://github.com/ihavn/IoT_Semester_project/blob/b4d082f58bf6ec7edca1c6618e1d9f300d6da03e/README.md>
+  
