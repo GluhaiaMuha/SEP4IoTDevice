@@ -13,12 +13,12 @@
 
 static int16_t dataHandlerTemperature;
 
-int16_t dataHandler_getData()
-{
-	return dataHandlerTemperature;
-}
-
 void dataHandler_setTemperature(int16_t sensorTemperature)
 {
 	dataHandlerTemperature = sensorTemperature;
+}
+
+int16_t dataHandler_getData()
+{
+	return dataHandlerTemperature;
 }

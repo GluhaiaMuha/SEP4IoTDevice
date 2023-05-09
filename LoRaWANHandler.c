@@ -13,6 +13,7 @@
 #include <status_leds.h>
 
 #include "Headers/dataHandler.h"
+#include "Headers/sensorHandler.h"
 
 // Parameters for OTAA join
 #define LORA_appEUI "E3F46724321C3AFF"

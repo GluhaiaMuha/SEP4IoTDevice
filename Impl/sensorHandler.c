@@ -48,7 +48,7 @@ void sensorsHandler_task(void* pvParameters)
 		printf("SensorHandler Task Started\n");
 		xTaskDelayUntil(&xLastWakeTime, xFrequency);
 		
-		lastTempRecorded = temperature_getLatestTemperature;
+		lastTempRecorded = temperature_getLatestTemperature();
 		dataHandler_setTemperature(lastTempRecorded);
 	}
 }
