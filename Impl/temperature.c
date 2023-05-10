@@ -64,6 +64,14 @@ int16_t temperature_getLatestTemperature(){
 }
 
 
+int16_t humidity_getLatestHumidity()
+{
+	int16_t measureHumidity = hih8120_getHumidityPercent_x10();
+	printf("Latest Humidity Measured: %d\n", measureHumidity);
+	
+	return measureHumidity;
+}
+
 void temperature_task(void* pvParameters){
 	// Remove compiler warnings
 	(void)pvParameters;
@@ -76,7 +84,7 @@ void temperature_task(void* pvParameters){
 
 	for (;;)
 	{
-		printf("Temperature Task started\n");
+		printf("Temperature/Humidity Task started\n");
 		
 		temperature_wakeup();
 		xTaskDelayUntil(&xLastWakeTime, xFrequency2);
@@ -85,7 +93,12 @@ void temperature_task(void* pvParameters){
 		temperature_measure();
 		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
 		
+		//Measure Temperature
 		temperature_getLatestTemperature();
+		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
+		
+		//Measure Humidity
+		humidity_getLatestHumidity();
 		//wait 30 seconds for next measurement
 		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
 	}

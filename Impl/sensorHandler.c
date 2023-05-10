@@ -16,6 +16,7 @@
 #include "../Headers/temperature.h"
 
 static int16_t lastTempRecorded;
+static int16_t lastHumidityRecorded;
 
 void sensorsHandler_createTemperatureSensor()
 {
@@ -50,5 +51,8 @@ void sensorsHandler_task(void* pvParameters)
 		
 		lastTempRecorded = temperature_getLatestTemperature;
 		dataHandler_setTemperature(lastTempRecorded);
+		
+		lastHumidityRecorded = humidity_getLatestHumidity();
+		dataHandler_setHumidity(lastHumidityRecorded);
 	}
 }

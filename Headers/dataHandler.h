@@ -6,5 +6,8 @@
  *  Author: Marius
  */ 
 
-int16_t dataHandler_getData();
+int16_t dataHandler_getTempData();
 void dataHandler_setTemperature(int16_t sensorTemperature);
+
+void dataHandler_setHumidity(int16_t sensorHumidity);
+int16_t dataHandler_getHumData();

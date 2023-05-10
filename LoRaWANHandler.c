@@ -35,7 +35,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 
 
 /************************************************************************/
-/* Don't touch, shit may happen                                         */
+/* Don't touch, sh*t may happen                                         */
 /************************************************************************/
 static void _lora_setup(void)
 {
@@ -136,8 +136,8 @@ void lora_handler_task( void *pvParameters )
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
 
-		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = dataHandler_getData();
+		uint16_t hum = dataHandler_getHumData();
+		int16_t temp = dataHandler_getTempData();
 		uint16_t co2_ppm = 1050; // Dummy CO2
 
 		_uplink_payload.bytes[0] = hum >> 8;
