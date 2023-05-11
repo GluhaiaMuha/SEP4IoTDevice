@@ -12,13 +12,27 @@
 #include <semphr.h>
 
 static int16_t dataHandlerTemperature;
+static int16_t dataHandlerHumidity;
+
+//For Temperature
+int16_t dataHandler_getTempData()
+{
+	return dataHandlerTemperature;
+}
+
 
 void dataHandler_setTemperature(int16_t sensorTemperature)
 {
 	dataHandlerTemperature = sensorTemperature;
 }
 
-int16_t dataHandler_getData()
+//For Humidity
+void dataHandler_setHumidity(int16_t sensorHumidity)
 {
-	return dataHandlerTemperature;
+	dataHandlerHumidity = sensorHumidity;
+}
+
+int16_t dataHandler_getHumData()
+{
+	return dataHandlerHumidity;
 }

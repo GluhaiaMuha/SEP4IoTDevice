@@ -285,6 +285,9 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Headers\co2.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Headers\dataHandler.h">
       <SubType>compile</SubType>
     </Compile>
@@ -292,6 +295,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Headers\temperature.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Impl\co2.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Impl\dataHandler.c">
