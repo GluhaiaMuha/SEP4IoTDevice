@@ -13,6 +13,7 @@
 
 static int16_t dataHandlerTemperature;
 static int16_t dataHandlerHumidity;
+static int16_t dataHandlerAvgTemperature;
 
 //For Temperature
 int16_t dataHandler_getTempData()
@@ -24,6 +25,18 @@ int16_t dataHandler_getTempData()
 void dataHandler_setTemperature(int16_t sensorTemperature)
 {
 	dataHandlerTemperature = sensorTemperature;
+}
+
+
+void dataHandler_setAvgTemperature(int16_t sensorAvgTemperature)
+{
+	dataHandlerAvgTemperature = sensorAvgTemperature;
+}
+
+
+int16_t dataHandler_getAvgTempeature()
+{
+	return dataHandlerAvgTemperature;
 }
 
 //For Humidity

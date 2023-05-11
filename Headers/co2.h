@@ -6,7 +6,6 @@
  *  Author: Marius
  */ 
 
-#pragma once
 #include <stdint.h>
 
 void co2_create();

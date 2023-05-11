@@ -9,5 +9,8 @@
 int16_t dataHandler_getTempData();
 void dataHandler_setTemperature(int16_t sensorTemperature);
 
+void dataHandler_setAvgTemperature(int16_t sensorAvgTemperature);
+int16_t dataHandler_getAvgTempeature();
+
 void dataHandler_setHumidity(int16_t sensorHumidity);
 int16_t dataHandler_getHumData();

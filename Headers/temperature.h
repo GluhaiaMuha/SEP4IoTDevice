@@ -13,6 +13,8 @@
 
 void temperature_create();
 int16_t temperature_getLatestTemperature();
+int16_t temperature_getAvgTemperature();
+
 
 int16_t humidity_getLatestHumidity();
 void temperature_task();

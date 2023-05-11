@@ -13,10 +13,9 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <mh_z19.h>
 
-#include "Headers/co2.h"
+#include "../Headers/co2.h"
 
 uint16_t ppm;
-mh_z19_returnCode_t rc = mh_z19_takeMeassuring();
 
 
 void co2_create()
@@ -25,6 +24,7 @@ void co2_create()
 
 	printf("Initialization of mh_z19 (CO2 sensor) - success!\n");
 }
+/*
 
 void co2_measure(){
 	
@@ -36,6 +36,7 @@ void co2_measure(){
 		printf("Measure of mh_z19 (CO2 sensor) - success!\n");
 	}
 }
+*/
 
 int16_t co2_getValue()
 {
@@ -44,7 +45,7 @@ int16_t co2_getValue()
 
 void co2_task()
 {
-	printf("To implement")
+	printf("To implement");
 }
 
 int16_t co2_getLatestValue()

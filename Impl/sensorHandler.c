@@ -17,6 +17,7 @@
 
 static int16_t lastTempRecorded;
 static int16_t lastHumidityRecorded;
+static int16_t lastAvgRecorded;
 
 void sensorsHandler_createTemperatureSensor()
 {
@@ -51,6 +52,9 @@ void sensorsHandler_task(void* pvParameters)
 		
 		lastTempRecorded = temperature_getLatestTemperature();
 		dataHandler_setTemperature(lastTempRecorded);
+		
+		lastAvgRecorded = temperature_getAvgTemperature();
+		dataHandler_setAvgTemperature(lastAvgRecorded);
 		
 		lastHumidityRecorded = humidity_getLatestHumidity();
 		dataHandler_setHumidity(lastHumidityRecorded);
