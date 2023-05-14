@@ -20,10 +20,8 @@
 
 //Buffer for storing sensor data for temperature_getAvgTemperature(); method
 #define BUFFER_SIZE 10
-int16_t readings[BUFFER_SIZE];
 
-static int16_t temperatures[10];
-static int indexOfLatestTemperature = 0;
+int16_t readings[BUFFER_SIZE];
 
 
 void temperature_create(){
@@ -61,16 +59,14 @@ void temperature_measure(){
 }
 
 int16_t temperature_getLatestTemperature(){
+	
 	int16_t measuredTemperature =  hih8120_getTemperature_x10();
-	printf("Latest temperature: %d\n", measuredTemperature);
 	return measuredTemperature;
 }
 
 int16_t humidity_getLatestHumidity()
 {
 	int16_t measureHumidity = hih8120_getHumidityPercent_x10();
-	printf("Latest Humidity Measured: %d\n", measureHumidity);
-	
 	return measureHumidity;
 }
 
@@ -112,8 +108,33 @@ int16_t temperature_getAvgTemperature()
 		return 0;
 	}
 	
-	printf("Latest Average Temp read: %d\n", (int16_t)(sum/count));
 	return (int16_t)(sum/count);
+}
+
+int16_t get_minimum_value(int16_t readings[BUFFER_SIZE])
+{
+	int16_t min_value = readings[0];
+	for (int i = 1; i < BUFFER_SIZE; i++)
+	{
+		if (readings[i] < min_value)
+		{
+			min_value = readings[i];
+		}
+	}
+	return min_value;
+}
+
+int16_t get_maximum_value(int16_t readings[BUFFER_SIZE])
+{
+	int16_t max_value = readings[0];
+	for (int i = 1; i < BUFFER_SIZE; i++)
+	{
+		if (readings[i] > max_value)
+		{
+			max_value = readings[i];
+		}
+	}
+	return max_value;
 }
 
 
@@ -140,17 +161,23 @@ void temperature_task(void* pvParameters){
 		temperature_measure();
 		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
 		
-		//Measure Temperature
-		temperature_getLatestTemperature();
+		//Last Temperature
+		printf("Last measure temperature: %d\n",temperature_getLatestTemperature());
 		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
 		
-		//Measure average
+		//Temp average
 		int16_t reading = hih8120_getTemperature_x10();
 		store_data_in_buffer(reading);
+		printf("Latest Average Temp read: %d\n", temperature_getAvgTemperature());
 		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
 		
-		//Measure Humidity
-		humidity_getLatestHumidity();
+		//Get min value
+		//Get max value
+		
+		// Humidity
+		printf("Latest Humidity Measured: %d\n", humidity_getLatestHumidity());
+		
+		
 		
 		//wait 30 seconds for next measurement
 		xTaskDelayUntil(&xLastWakeTime, xFrequency3);

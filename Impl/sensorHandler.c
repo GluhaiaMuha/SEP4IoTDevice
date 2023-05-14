@@ -14,12 +14,14 @@
 #include "../Headers/dataHandler.h"
 #include "../Headers/sensorHandler.h"
 #include "../Headers/temperature.h"
+#include "../Headers/co2.h"
 
 static int16_t lastTempRecorded;
 static int16_t lastHumidityRecorded;
 static int16_t lastAvgRecorded;
+static uint16_t lastCo2Recorded;
 
-void sensorsHandler_createTemperatureSensor()
+void sensorsHandler_createSensors()
 {
 	temperature_create();
 	
@@ -30,6 +32,15 @@ void sensorsHandler_createTemperatureSensor()
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
+	
+	co2_sensor_create();
+	xTaskCreate(
+	co2_task
+	, "co2Task"
+	, configMINIMAL_STACK_SIZE
+	, NULL
+	, 2
+	,NULL);
 }
 
 /************************************************************************/
@@ -58,5 +69,8 @@ void sensorsHandler_task(void* pvParameters)
 		
 		lastHumidityRecorded = humidity_getLatestHumidity();
 		dataHandler_setHumidity(lastHumidityRecorded);
+		
+		lastCo2Recorded = co2_sensor_get_last_reading();
+		dataHandler_setCo2(lastCo2Recorded);
 	}
 }

@@ -14,3 +14,6 @@ int16_t dataHandler_getAvgTempeature();
 
 void dataHandler_setHumidity(int16_t sensorHumidity);
 int16_t dataHandler_getHumData();
+
+void dataHandler_setCo2(uint16_t sensorCo2);
+uint16_t dataHandler_getCo2Data();

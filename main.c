@@ -57,7 +57,7 @@ void initialiseSystem()
 	stdio_initialise(ser_USART0);
 	
 	//Create the temp sensor through sensorHandler
-	sensorsHandler_createTemperatureSensor();
+	sensorsHandler_createSensors();
 	
 	// Let's create some tasks
 	create_tasks_and_semaphores();
