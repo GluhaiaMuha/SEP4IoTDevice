@@ -11,6 +11,5 @@ test_result.xml
 .vscode
 .devcontainer
 .vs
-CMakeLists.txt
 *.atsln
 *.cproj
