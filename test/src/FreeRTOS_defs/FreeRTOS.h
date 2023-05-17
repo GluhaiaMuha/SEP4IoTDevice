@@ -2,6 +2,8 @@
 #include <stdint.h>
 
 #define pdMS_TO_TICKS(ms) (ms)
+#define configTICK_RATE_HZ ((TickType_t)1000)
+#define portTICK_PERIOD_MS ((TickType_t)1000 / configTICK_RATE_HZ)
 #define portMAX_DELAY 0xFFFF
 #define pdTRUE 1
 #define pdFALSE 0
