@@ -5,6 +5,9 @@ extern "C"
 {
 	#include <temperature.h>
   #include <hih8120.h>
+
+  #define BUFFER_SIZE 10
+  int16_t readings[BUFFER_SIZE];
 }
 
 DEFINE_FFF_GLOBALS;
@@ -12,6 +15,7 @@ FAKE_VALUE_FUNC(hih8120_driverReturnCode_t, hih8120_initialise);
 FAKE_VALUE_FUNC(hih8120_driverReturnCode_t, hih8120_wakeup);
 FAKE_VALUE_FUNC(hih8120_driverReturnCode_t, hih8120_measure);
 FAKE_VALUE_FUNC(int16_t, hih8120_getTemperature_x10);
+FAKE_VALUE_FUNC(uint16_t, hih8120_getHumidityPercent_x10);
 
 // Create Test fixture and Reset all Mocks before each test
 class Temperature_test : public ::testing::Test
@@ -22,7 +26,8 @@ protected:
 		RESET_FAKE(hih8120_initialise);
     RESET_FAKE(hih8120_wakeup);
     RESET_FAKE(hih8120_measure);
-    RESET_FAKE(hih8120_getTemperature_x10)
+    RESET_FAKE(hih8120_getTemperature_x10);
+    RESET_FAKE(hih8120_getHumidityPercent_x10);
 		FFF_RESET_HISTORY();
 	}
 	void TearDown() override
@@ -65,6 +70,35 @@ TEST_F(Temperature_test, Test_getTemperature_return_value){
   //Assert
   ASSERT_EQ(hih8120_getTemperature_x10_fake.call_count, 1);
   ASSERT_EQ(_temperature, 30);
+}
+
+TEST_F(Temperature_test, Test_getLatestHumidity_correct_return){
+  //Arrange
+  hih8120_getHumidityPercent_x10_fake.return_val = 5;
+  uint16_t _humidity;
+  //Act
+  _humidity = humidity_getLatestHumidity();
+  //Assert
+  ASSERT_EQ(hih8120_getHumidityPercent_x10_fake.call_count, 1);
+  ASSERT_EQ(_humidity, 5);
+}
+
+TEST_F(Temperature_test, Test_store_data_in_buffer){
+  //clear readings
+  memset(readings, 0, sizeof(readings));
+
+  store_data_in_buffer(10);
+  ASSERT_EQ(readings[0], 10);
+}
+
+TEST_F(Temperature_test, Test_getAvgTemperature_correct_return)
+{
+   for(int i = 0; i < BUFFER_SIZE; ++i) {
+        readings[i] = i+1;  // Fill buffer with values 1 to BUFFER_SIZE
+    }
+    // Expected average is (1+2+...+BUFFER_SIZE) / BUFFER_SIZE
+    int16_t expected_average = (BUFFER_SIZE*(BUFFER_SIZE+1))/(2*BUFFER_SIZE);
+    ASSERT_EQ(temperature_getAvgTemperature(), expected_average);
 }
 
 // Demonstrate some basic assertions.

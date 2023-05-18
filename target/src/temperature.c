@@ -17,6 +17,9 @@
 #include <temperature.h>
 #include <hih8120.h>
 
+#define BUFFER_SIZE 10
+int16_t readings[BUFFER_SIZE];
+
 static int16_t temperatures[10];
 static int indexOfLatestTemperature = 0;
 
@@ -65,6 +68,55 @@ int16_t temperature_getLatestTemperature(){
 	printf("Latest temperature: %d\n", measuredTemperature);
 	
 	return measuredTemperature;
+}
+
+int16_t humidity_getLatestHumidity()
+{
+	int16_t measureHumidity = hih8120_getHumidityPercent_x10();
+	printf("Latest Humidity Measured: %d\n", measureHumidity);
+	
+	return measureHumidity;
+}
+
+void store_data_in_buffer(int16_t reading)
+{
+	static int buffer_index = 0;
+	if (buffer_index < BUFFER_SIZE)
+	{
+		readings[buffer_index] = reading;
+		buffer_index++;
+	}else{
+		//Buffer is full, overwrite oldest reading
+		for (int i = 1; i < BUFFER_SIZE; i++)
+		{
+			readings[i - 1] = readings[i];
+		}
+		readings[BUFFER_SIZE - 1] = reading;
+	}
+}
+
+int16_t temperature_getAvgTemperature()
+{
+	int16_t sum = 0;
+	int count = 0;
+	
+	
+	for (int i = 0; i< BUFFER_SIZE; i++)
+	{
+		if (readings[i] != 0)
+		{
+			sum+= readings[i];
+			count++;
+		}
+	}
+	
+	if (count == 0)
+	{
+		return 0;
+	}
+	
+	printf("Latest Average Temp read: %d\n", (int16_t)(sum/count));
+	return (int16_t)(sum/count);
 }
 
 
