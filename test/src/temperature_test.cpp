@@ -40,7 +40,7 @@ TEST_F(Temperature_test, Test_hih8120_initialise_is_called){
   //Act
   temperature_create();
   //Assert
-  ASSERT_EQ(hih8120_initialise_fake.call_count, 1);
+  EXPECT_EQ(hih8120_initialise_fake.call_count, 1);
 }
 
 TEST_F(Temperature_test, Test_hih8120_wakeup_is_called){
@@ -49,7 +49,7 @@ TEST_F(Temperature_test, Test_hih8120_wakeup_is_called){
   //Act
   temperature_wakeup();
   //Assert
-  ASSERT_EQ(hih8120_wakeup_fake.call_count, 1);
+  EXPECT_EQ(hih8120_wakeup_fake.call_count, 1);
 }
 
 TEST_F(Temperature_test, Test_hih8120_measure_is_called){
@@ -58,7 +58,7 @@ TEST_F(Temperature_test, Test_hih8120_measure_is_called){
   //Act
   temperature_measure();
   //Assert
-  ASSERT_EQ(hih8120_measure_fake.call_count, 1);
+  EXPECT_EQ(hih8120_measure_fake.call_count, 1);
 }
 
 TEST_F(Temperature_test, Test_getTemperature_return_value){
@@ -68,8 +68,8 @@ TEST_F(Temperature_test, Test_getTemperature_return_value){
   //Act
   _temperature = temperature_getLatestTemperature();
   //Assert
-  ASSERT_EQ(hih8120_getTemperature_x10_fake.call_count, 1);
-  ASSERT_EQ(_temperature, 30);
+  EXPECT_EQ(hih8120_getTemperature_x10_fake.call_count, 1);
+  EXPECT_EQ(_temperature, 30);
 }
 
 TEST_F(Temperature_test, Test_getLatestHumidity_correct_return){
@@ -79,8 +79,8 @@ TEST_F(Temperature_test, Test_getLatestHumidity_correct_return){
   //Act
   _humidity = humidity_getLatestHumidity();
   //Assert
-  ASSERT_EQ(hih8120_getHumidityPercent_x10_fake.call_count, 1);
-  ASSERT_EQ(_humidity, 5);
+  EXPECT_EQ(hih8120_getHumidityPercent_x10_fake.call_count, 1);
+  EXPECT_EQ(_humidity, 5);
 }
 
 TEST_F(Temperature_test, Test_store_data_in_buffer){
@@ -88,7 +88,7 @@ TEST_F(Temperature_test, Test_store_data_in_buffer){
   memset(readings, 0, sizeof(readings));
 
   store_data_in_buffer(10);
-  ASSERT_EQ(readings[0], 10);
+  EXPECT_EQ(readings[0], 10);
 }
 
 TEST_F(Temperature_test, Test_getAvgTemperature_correct_return)
@@ -98,20 +98,5 @@ TEST_F(Temperature_test, Test_getAvgTemperature_correct_return)
     }
     // Expected average is (1+2+...+BUFFER_SIZE) / BUFFER_SIZE
     int16_t expected_average = (BUFFER_SIZE*(BUFFER_SIZE+1))/(2*BUFFER_SIZE);
-    ASSERT_EQ(temperature_getAvgTemperature(), expected_average);
-}
-
-// Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions) {
-  // Expect two strings not to be equal.
-  EXPECT_STRNE("hello", "world");
-  // Expect equality.
-  EXPECT_EQ(7 * 6, 42);
-}
-
-TEST(HelloTest2, BasicAssertions) {
-  // Expect two strings not to be equal.
-  EXPECT_STRNE("hello", "world");
-  // Expect equality.
-  EXPECT_EQ(7 * 6, 42);
+    EXPECT_EQ(temperature_getAvgTemperature(), expected_average);
 }
