@@ -19,7 +19,8 @@ In order to run the tests make sure you have installed:
 
 7. Click on the play button at the bottom. Play button is marked on the below image.
 
-![Screenshot 2023-05-18 210037](https://github.com/GluhaiaMuha/SEP4IoTDevice/assets/66741324/29b8357d-0c09-4fdc-81c6-5fce4ef26513)
+![Screenshot 2023-05-18 210037](https://github.com/GluhaiaMuha/SEP4IoTDevice/assets/66741324/9c420f9e-7227-4dd6-bdd6-b628d890ab0c)
+
 
 8. At this point there should be Tests visible with status OK or FAILED in OUTPUT terminal (image below).
 
