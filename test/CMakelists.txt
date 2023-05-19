@@ -24,6 +24,7 @@ set(SOURCES_TEST
     src/lora_test.cpp
     src/FreeRTOS_defs/FreeRTOS_FFF_MocksDefinitions.cpp
     ../target/src/temperature.c
+    ../target/src/LoRaWANHandler.c
     ${SRCS}
 )
 
