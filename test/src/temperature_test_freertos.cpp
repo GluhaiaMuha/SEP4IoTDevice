@@ -47,14 +47,14 @@ TEST_F(Temperature_freertos_test, xTaskDelayUntil_is_called){
     //Act
     temperature_task_run();
     //Assert
-    ASSERT_EQ(3, xTaskDelayUntil_fake.call_count);
+    EXPECT_EQ(3, xTaskDelayUntil_fake.call_count);
     //first delay call
-    ASSERT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_val);
-    ASSERT_EQ(xFrequency2, xTaskDelayUntil_fake.arg1_val);
+    EXPECT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_val);
+    EXPECT_EQ(xFrequency2, xTaskDelayUntil_fake.arg1_val);
     //*second delay call
-    ASSERT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_history[1]);
-    ASSERT_EQ(xFrequency1, xTaskDelayUntil_fake.arg1_history[1]);
+    EXPECT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_history[1]);
+    EXPECT_EQ(xFrequency1, xTaskDelayUntil_fake.arg1_history[1]);
     //third delay call
-    ASSERT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_history[2]);
-    ASSERT_EQ(xFrequency3, xTaskDelayUntil_fake.arg1_history[2]);
+    EXPECT_EQ(xLastWakeTime, *xTaskDelayUntil_fake.arg0_history[2]);
+    EXPECT_EQ(xFrequency3, xTaskDelayUntil_fake.arg1_history[2]);
 }
