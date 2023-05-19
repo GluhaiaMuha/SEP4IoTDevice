@@ -50,12 +50,15 @@ protected:
 	void TearDown() override
 	{}
 };
-
-
-
-
 //initialise
-  //xTaskCreate
+TEST_F(Lora_test, Should_call_xTaskCreate_with_correct_parameter_when_lora_handler_initialise_is_called)
+{
+  UBaseType_t priority = 2;
+
+  lora_handler_initialise(priority);
+
+  EXPECT_EQ(xTaskCreate_fake.call_count, 1);
+}
 //setup
 
 //handler_task
