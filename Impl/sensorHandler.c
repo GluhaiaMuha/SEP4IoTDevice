@@ -19,7 +19,11 @@
 static int16_t lastTempRecorded;
 static int16_t lastHumidityRecorded;
 static int16_t lastAvgRecorded;
+<<<<<<< HEAD
 static uint16_t lastCo2Recorded;
+=======
+static uint16_t lastCO2Recorded;
+>>>>>>> 56c4ed9439063257b9c42c400529327f7e8a41b9
 
 void sensorsHandler_createSensors()
 {
@@ -33,10 +37,17 @@ void sensorsHandler_createSensors()
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
 	
+<<<<<<< HEAD
 	co2_sensor_create();
 	xTaskCreate(
 	co2_task
 	, "co2Task"
+=======
+	CO2_sensor_create();
+	xTaskCreate(
+	CO2_task
+	, "CO2Task"
+>>>>>>> 56c4ed9439063257b9c42c400529327f7e8a41b9
 	, configMINIMAL_STACK_SIZE
 	, NULL
 	, 2
@@ -70,7 +81,14 @@ void sensorsHandler_task(void* pvParameters)
 		lastHumidityRecorded = humidity_getLatestHumidity();
 		dataHandler_setHumidity(lastHumidityRecorded);
 		
+<<<<<<< HEAD
 		lastCo2Recorded = co2_sensor_get_last_reading();
 		dataHandler_setCo2(lastCo2Recorded);
+=======
+		lastCO2Recorded = CO2_sensor_get_last_reading();
+		dataHandler_setCO2(lastCO2Recorded);
+		
+		
+>>>>>>> 56c4ed9439063257b9c42c400529327f7e8a41b9
 	}
 }

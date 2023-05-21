@@ -16,6 +16,7 @@ static int16_t dataHandlerHumidity;
 static int16_t dataHandlerAvgTemperature;
 static uint16_t dataHandlerCo2;
 
+
 //For Temperature
 int16_t dataHandler_getTempData()
 {
