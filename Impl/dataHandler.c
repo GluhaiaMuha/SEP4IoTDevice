@@ -14,7 +14,6 @@
 static int16_t dataHandlerTemperature;
 static int16_t dataHandlerHumidity;
 static int16_t dataHandlerAvgTemperature;
-static uint16_t dataHandlerCO2;
 
 //For Temperature
 int16_t dataHandler_getTempData()
@@ -49,14 +48,4 @@ void dataHandler_setHumidity(int16_t sensorHumidity)
 int16_t dataHandler_getHumData()
 {
 	return dataHandlerHumidity;
-}
-
-void dataHandler_setCO2(uint16_t sensorCO2)
-{
-	dataHandlerCO2 = sensorCO2;
-}
-
-uint16_t dataHandler_getCO2Data()
-{
-	return dataHandlerCO2;
 }
