@@ -4,6 +4,10 @@ In order to run the tests make sure you have installed:
 - CMake extension
 
 ## Step-by-step
+
+!!! If you open src files outside of platformio project there will be many include errors.
+Don't worry just close the file and if you want to modify it do it from platformio project
+
 1. Start VSCode and press the *PlatformIO* icon on the left.
 
 2. Select blue button *Pick a folder*

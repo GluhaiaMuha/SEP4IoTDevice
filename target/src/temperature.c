@@ -130,19 +130,19 @@ inline void temperature_task_init(){
 	temperature_create();
 }
 
-inline void temperature_task_run(void){
+inline void temperature_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency1,TickType_t xFrequency2,TickType_t xFrequency3){
 	printf("Temperature Task started\n");
 		
 		temperature_wakeup();
-		xTaskDelayUntil(&xLastWakeTime, xFrequency2);
+		xTaskDelayUntil(xLastWakeTime, xFrequency2);
 		
 		
 		temperature_measure();
-		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
+		xTaskDelayUntil(xLastWakeTime, xFrequency1);
 		
 		temperature_getLatestTemperature();
 		//wait 30 seconds for next measurement
-		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
+		xTaskDelayUntil(xLastWakeTime, xFrequency3);
 }
 
 
@@ -154,6 +154,8 @@ void temperature_task(void* pvParameters){
 
 	for (;;)
 	{
-		temperature_task_run();
+		/*We pass xLastWakeTime because
+		we need it for testing*/
+		temperature_task_run(&xLastWakeTime, xFrequency1, xFrequency2, xFrequency3);
 	}
 }
