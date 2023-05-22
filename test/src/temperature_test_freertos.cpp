@@ -45,7 +45,8 @@ TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_xTaskDelayUn
 	TickType_t xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
 	TickType_t xFrequency3 = 30000/portTICK_PERIOD_MS; // 30000 ms
     //Act
-    temperature_task_run(&xLastWakeTime, xFrequency1, xFrequency2, xFrequency3);
+    temperature_task_init();
+    temperature_task_run();
     //Assert
     EXPECT_EQ(3, xTaskDelayUntil_fake.call_count);
     //first delay call
@@ -59,3 +60,4 @@ TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_xTaskDelayUn
     EXPECT_EQ(xFrequency3, xTaskDelayUntil_fake.arg1_history[2]);
 }
 */
+

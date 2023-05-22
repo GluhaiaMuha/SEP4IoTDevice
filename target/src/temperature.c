@@ -123,7 +123,7 @@ int16_t temperature_getAvgTemperature()
 //inline for performance improvement
 inline void temperature_task_init(){
 	xLastWakeTime = xTaskGetTickCount();
-xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
+	xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
 	xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
 	xFrequency3 = 30000/portTICK_PERIOD_MS; // 30000 ms
 
