@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-void co2_create();
-int16_t co2_getValue();
-void co2_task();
-int16_t co2_getLatestValue();
+void CO2_create();
+int16_t CO2_getValue();
+void CO2_task();
+int16_t CO2_getLatestValue();
