@@ -11,4 +11,4 @@
 void CO2_create();
 int16_t CO2_getValue();
 void CO2_task();
-int16_t CO2_getLatestValue();
+uint16_t CO2_sensor_get_last_reading();
