@@ -11,9 +11,9 @@
 
 #include <lora_driver.h>
 #include <status_leds.h>
+#include <message_buffer.h>
 
 #include "Headers/dataHandler.h"
-#include "Headers/sensorHandler.h"
 
 // Parameters for OTAA join
 #define LORA_appEUI "E3F46724321C3AFF"
@@ -22,8 +22,12 @@
 void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
+static lora_driver_payload_t downlinkPayload;
 
-void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
+MessageBufferHandle_t downLinkMessageBufferHandle;
+
+
+void lora_handler_initialise(UBaseType_t lora_handler_task_priority, MessageBufferHandle_t downLinkMessageBufferHandle)
 {
 	xTaskCreate(
 	lora_handler_task
@@ -127,6 +131,8 @@ void lora_handler_task( void *pvParameters )
 
 	_uplink_payload.len = 8;
 	_uplink_payload.portNo = 2;
+	
+
 
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
@@ -152,6 +158,25 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[7] = avgTemp & 0xFF;
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		//printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+		
+		lora_driver_returnCode_t rc;
+		
+		if ((rc = lora_driver_sendUploadMessage(false, &_uplink_payload)) == LORA_MAC_TX_OK )
+		{
+			printf("Uplink Sent without downlink to be received");
+		}
+		else if (rc == LORA_MAC_TX_OK)
+		{
+			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
+			int16_t minTemperatureSetting  = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
+			int16_t  maxTemperatureSetting = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
+			dataHandler_setTempLimits(minTemperatureSetting,maxTemperatureSetting);
+			
+			printf("Downlink successfully received");
+			printf("Downlink data received: Min Temp:%d  Max Temp:%d", minTemperatureSetting, maxTemperatureSetting);
+		}
+		
+		
 	}
 }

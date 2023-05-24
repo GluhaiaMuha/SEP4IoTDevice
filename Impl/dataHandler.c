@@ -10,14 +10,16 @@
 #include <stdint.h>
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
+#include "../Headers/dataHandler.h"
 
 static int16_t dataHandlerTemperature;
 static int16_t dataHandlerHumidity;
 static int16_t dataHandlerAvgTemperature;
 static uint16_t dataHandlerCo2;
+static struct ServoLimits limit;
 
 
-//For Temperature
+
 int16_t dataHandler_getTempData()
 {
 	return dataHandlerTemperature;
@@ -41,23 +43,38 @@ int16_t dataHandler_getAvgTempeature()
 	return dataHandlerAvgTemperature;
 }
 
-//For Humidity
+
 void dataHandler_setHumidity(int16_t sensorHumidity)
 {
 	dataHandlerHumidity = sensorHumidity;
 }
+
 
 int16_t dataHandler_getHumData()
 {
 	return dataHandlerHumidity;
 }
 
+
 void dataHandler_setCo2(uint16_t sensorCo2)
 {
 	dataHandlerCo2 = sensorCo2;
 }
 
+
 uint16_t dataHandler_getCo2Data()
 {
 	return dataHandlerCo2;
+}
+
+struct ServoLimits dataHandler_getLimits(){
+	struct ServoLimits tempServoLimits;
+	limit = tempServoLimits;
+	
+	return limit;
+}
+
+void dataHandler_setTempLimits(int16_t minTemp, int16_t maxTemp){
+	limit.minTempLimit = minTemp;
+	limit.maxTempLimit = maxTemp;
 }
