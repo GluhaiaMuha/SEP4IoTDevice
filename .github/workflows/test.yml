@@ -1,0 +1,18 @@
+name: Regression Testing
+
+on:
+  push:
+    branches: [ "master" , "project_test_setup" ]
+  pull_request:
+    branches: [ "master", "project_test_setup"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build tests
+        run: make test
+      - name: Run tests
+        run: ./tests/build/gtest_tests
