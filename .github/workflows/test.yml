@@ -2,9 +2,9 @@ name: Regression Testing
 
 on:
   push:
-    branches: [ "master", "project_test_setup" ]
+    branches: [ "project_test_setup" ]
   pull_request:
-    branches: [ "master", "project_test_setup"  ]
+    branches: [ "project_test_setup"  ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
