@@ -39,3 +39,15 @@ TEST_F(CO2_test, Should_call_mh_z19_initialise_when_co2_sensor_create_is_called)
 	EXPECT_EQ(mh_z19_initialise_fake.call_count, 1);
 } 
 
+TEST_F(CO2_test, Should_call_mh_z19_takeMeassuring_when_co2_sensor_measure_is_called)
+{
+    // Arrange
+    mh_z19_takeMeassuring_fake.return_val = MHZ19_OK;
+
+    // Act
+    co2_sensor_measure();
+
+    // Assert
+    EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1);
+}
+
