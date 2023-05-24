@@ -30,8 +30,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       
     - name: List files
-      run: cd ${{github.workspace}}/build
-           ls -R
+      run: cd ${{github.workspace}}/build && ls -R
 
 
     - name: Test
