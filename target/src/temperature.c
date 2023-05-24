@@ -18,7 +18,7 @@
 #include <hih8120.h>
 
 #define BUFFER_SIZE 10
-int16_t readings[BUFFER_SIZE];
+//int16_t readings[BUFFER_SIZE];
 
 static int16_t temperatures[10];
 static int indexOfLatestTemperature = 0;
@@ -77,7 +77,7 @@ int16_t humidity_getLatestHumidity()
 	
 	return measureHumidity;
 }
-
+/*
 void store_data_in_buffer(int16_t reading)
 {
 	static int buffer_index = 0;
@@ -118,6 +118,7 @@ int16_t temperature_getAvgTemperature()
 	printf("Latest Average Temp read: %d\n", (int16_t)(sum/count));
 	return (int16_t)(sum/count);
 }
+*/
 
 
 //inline for performance improvement
