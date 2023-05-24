@@ -19,14 +19,17 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest )
 
 set(SOURCES_TEST
+    src/co2_test.cpp
     src/temperature_test.cpp
     src/temperature_test_freertos.cpp
     src/lora_test.cpp
     src/FreeRTOS_defs/FreeRTOS_FFF_MocksDefinitions.cpp
+    ../target/src/co2.c
     ../target/src/temperature.c
     ../target/src/LoRaWANHandler.c
     ${SRCS}
 )
+
 
 # This makes the test.cpp files able to #include target libraries without errors.  
 include_directories(
