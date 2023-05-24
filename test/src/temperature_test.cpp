@@ -104,3 +104,4 @@ TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getAvgTemp
 //lololo
 //vrever
 //xdxdxdxd
+//hhihihi
