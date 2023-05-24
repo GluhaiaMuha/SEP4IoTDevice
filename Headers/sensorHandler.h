@@ -11,6 +11,5 @@
 #include <stdint.h>
 
 
-void sensorsHandler_getTemperature();
-void sensorsHandler_createTemperatureSensor();
+void sensorsHandler_createSensors();
 void sensorsHandler_task();

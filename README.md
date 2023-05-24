@@ -10,7 +10,7 @@ for a terrarium.
 - Humidity Sensor
 - CO2 sensor
 - Temperature sensor
-- Servo responsible for auto feeding
+- Servo responsible for closing/opening window depending on the setted values of temperature
 - LoRaWAN antena to transmit data to a web application
 
 ## Installation

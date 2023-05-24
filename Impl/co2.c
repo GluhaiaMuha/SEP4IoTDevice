@@ -1,32 +1,31 @@
 
+/*
+ * co2.c
+ *
+ * Created: 5/9/2023 9:55:56 PM
+ *  Author: Marius, Mihail
+ */ 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+
 #include <ATMEGA_FreeRTOS.h>
 #include <mh_z19.h>
+
 #include "../Headers/co2.h"
 
-uint16_t lastCO2Recorded;
-mh_z19_returnCode_t status;
 
+static uint16_t lastCo2Recorded;;
 
-void CO2_callback(uint16_t level)
-{
-	lastCO2Recorded = level;
-}
-
-
-void CO2_sensor_create()
+void co2_sensor_create()
 {
 	mh_z19_initialise(ser_USART3);
-	mh_z19_injectCallBack(CO2_callback);
+	printf("Initialization of Co2 sensor successfully\n");
 
 }
 
-
-
-
-void CO2_sensor_measure()
+void co2_sensor_measure()
 {
 	// Trigger a new CO2 measurement
 	mh_z19_returnCode_t status = mh_z19_takeMeassuring();
@@ -40,13 +39,13 @@ void CO2_sensor_measure()
 	}
 }
 
-uint16_t CO2_sensor_get_last_reading()
+uint16_t co2_sensor_get_last_reading()
 {
 	// Return the last CO2 reading
-	return lastCO2Recorded;
+	return lastCo2Recorded;
 }
 
-void CO2_task(void* pvParameters)
+void co2_task(void* pvParameters)
 {
 	(void) pvParameters;
 
@@ -59,10 +58,10 @@ void CO2_task(void* pvParameters)
 
 	for (;;) {
 		printf("CO2 Task started\n");
-		CO2_sensor_measure();
+		co2_sensor_measure();
 		xTaskDelayUntil(&xLastWakeTime, xFrequency2);
 		
-		printf("Last recorded CO2 value: %u\n",CO2_sensor_get_last_reading());
+		printf("Last recorded co2 value: %u\n",co2_sensor_get_last_reading());
 		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
 	}
 }
