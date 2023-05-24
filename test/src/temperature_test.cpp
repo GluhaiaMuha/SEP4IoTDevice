@@ -100,3 +100,4 @@ TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getAvgTemp
     int16_t expected_average = (BUFFER_SIZE*(BUFFER_SIZE+1))/(2*BUFFER_SIZE);
     EXPECT_EQ(temperature_getAvgTemperature(), expected_average);
 }
+//lololo
