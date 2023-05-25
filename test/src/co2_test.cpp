@@ -55,7 +55,8 @@ TEST_F(CO2_test, Should_call_mh_z19_takeMeassuring_when_co2_sensor_measure_is_ca
 TEST_F(CO2_test, Should_return_last_reading_when_co2_sensor_get_last_reading_is_called)
 {
     // Arrange
-    int8_t lastCo2Recorded = 123;
+    int16_t lastCo2Recorded = 123;
+	co2_sensor_set_last_reading(lastCo2Recorded);
 
     // Act
     uint16_t result = co2_sensor_get_last_reading();
