@@ -24,6 +24,9 @@ git clone https://github.com/GluhaiaMuha/SEP4IoTDevice.git --recursive
 | ------ | ------ |
 | FreeRTOS | [FreeRTOS/README.md][PlDb] |
 | Drivers | [drivers/README.md][PlGh] |
+| Front-End | [][P1Fe] |
+| Back-End/Cloud | [][P1Be] |
+
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
@@ -44,4 +47,6 @@ git clone https://github.com/GluhaiaMuha/SEP4IoTDevice.git --recursive
 
    [PlDb]: <https://github.com/ihavn/VIA_FreeRTOS_AVRMEGA/blob/5bf0993e13bd63bfdbb774712925a25cfc65a427/readme.md>
    [PlGh]: <https://github.com/ihavn/IoT_Semester_project/blob/b4d082f58bf6ec7edca1c6618e1d9f300d6da03e/README.md>
+   [P1Fe]: <https://github.com/nanami4yokai/SEP4_front_end>
+   [P1Be]: <https://github.com/MartinHvizdak/TerraSense_Cloud> 
   
