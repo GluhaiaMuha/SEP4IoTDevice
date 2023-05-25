@@ -24,8 +24,8 @@ git clone https://github.com/GluhaiaMuha/SEP4IoTDevice.git --recursive
 | ------ | ------ |
 | FreeRTOS | [FreeRTOS/README.md][PlDb] |
 | Drivers | [drivers/README.md][PlGh] |
-| Front-End | [][P1Fe] |
-| Back-End/Cloud | [][P1Be] |
+| Front-End | [README.md][P1Fe] |
+| Back-End/Cloud | [README.md][P1Be] |
 
 
 
