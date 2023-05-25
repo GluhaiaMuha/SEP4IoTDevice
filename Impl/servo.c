@@ -18,7 +18,7 @@
 
 
 static int8_t position;
-static uint8_t servoNo = 1;
+static uint8_t servoNo = 0;
 
 static TickType_t xLastWakeTime;
 static TickType_t xFrequency;
@@ -34,6 +34,8 @@ void servo_turnOn()
 	position = 100;
 	rc_servo_setPosition(servoNo, position);
 	printf("Servo is turned on!\n");
+	struct ServoLimits limits = dataHandler_getLimits();
+	printf("Limits: %d %d\n", limits.minTempLimit, limits.maxTempLimit);
 }
 void servo_turnOff()
 {
@@ -80,26 +82,15 @@ void servoHandler_run(void)
 
 	limitResult result = co2Handler_compareData(tempData, limits.minTempLimit, limits.maxTempLimit);
 
-	if(result == ABOVE)
+	if(result == BELLOW)
 	{
 		servo_turnOff();
 	}
-	else if(result == BELLOW)
+	else if(result == ABOVE)
 	{
 		servo_turnOn();
 	}
 
-}
-
-void servo_task()
-{
-	xTaskCreate(
-	servo_createTask
-	,  "servoHandlerTask"
-	,  configMINIMAL_STACK_SIZE
-	,  NULL
-	,  2
-	,  NULL );
 }
 
 void servo_createTask(void* pvParameters)
@@ -113,3 +104,4 @@ void servo_createTask(void* pvParameters)
 		servoHandler_run();
 	}
 }
+

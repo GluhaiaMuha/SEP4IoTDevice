@@ -45,14 +45,16 @@ void create_tasks_and_semaphores(void)
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
-	
+
+
 	xTaskCreate(
-	servo_task
-	, "servoHandlerTask"
-	, configMINIMAL_STACK_SIZE
-	, NULL
-	, 2
-	, NULL);
+	servo_createTask
+	,  "servoHandlerTask"
+	,  configMINIMAL_STACK_SIZE
+	,  NULL
+	,  2
+	,  NULL );
+	
 }
 
 

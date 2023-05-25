@@ -22,7 +22,6 @@
 void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
-static lora_driver_payload_t downlinkPayload;
 
 MessageBufferHandle_t downLinkMessageBufferHandle;
 
@@ -132,8 +131,9 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.len = 8;
 	_uplink_payload.portNo = 2;
 	
-
-
+	lora_driver_payload_t downlinkPayload;
+	
+	
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
@@ -145,7 +145,7 @@ void lora_handler_task( void *pvParameters )
 
 		uint16_t hum = dataHandler_getHumData();
 		int16_t temp = dataHandler_getTempData();
-		uint16_t co2_ppm = 1050; // Dummy CO2
+		uint16_t co2_ppm = dataHandler_getCo2Data();
 		int16_t avgTemp = dataHandler_getAvgTempeature();
 
 		_uplink_payload.bytes[0] = hum >> 8;
@@ -164,17 +164,17 @@ void lora_handler_task( void *pvParameters )
 		
 		if ((rc = lora_driver_sendUploadMessage(false, &_uplink_payload)) == LORA_MAC_TX_OK )
 		{
-			printf("Uplink Sent without downlink to be received");
+			printf("Uplink Sent without downlink to be received\n");
 		}
 		else if (rc == LORA_MAC_TX_OK)
 		{
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 			int16_t minTemperatureSetting  = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
 			int16_t  maxTemperatureSetting = (downlinkPayload.bytes[2] << 8) + downlinkPayload.bytes[3];
-			dataHandler_setTempLimits(minTemperatureSetting,maxTemperatureSetting);
 			
-			printf("Downlink successfully received");
-			printf("Downlink data received: Min Temp:%d  Max Temp:%d", minTemperatureSetting, maxTemperatureSetting);
+			printf("Downlink data received: Min Temp:%d  Max Temp:%d\n", minTemperatureSetting, maxTemperatureSetting);
+			
+			dataHandler_setTempLimits(minTemperatureSetting,maxTemperatureSetting);
 		}
 		
 		

@@ -16,7 +16,8 @@
 #include "../Headers/co2.h"
 
 
-static uint16_t lastCo2Recorded;;
+static uint16_t ppm;
+static mh_z19_returnCode_t rc;
 
 void co2_sensor_create()
 {
@@ -34,15 +35,24 @@ void co2_sensor_measure()
 	{
 		printf("Measure of MHZ19 failed!\n");
 	}
-	else{
+	else
+	{
 		printf("Measure of MHZ19 was successful!\n");
 	}
 }
 
 uint16_t co2_sensor_get_last_reading()
 {
-	// Return the last CO2 reading
-	return lastCo2Recorded;
+	if (rc != MHZ19_OK)
+	{
+		printf("Failed to measure CO2");
+	}
+	else
+	{
+		printf("Last recorded co2 value: %d\n", ppm);	
+	}
+	
+	return ppm;
 }
 
 void co2_task(void* pvParameters)
@@ -59,9 +69,9 @@ void co2_task(void* pvParameters)
 	for (;;) {
 		printf("CO2 Task started\n");
 		co2_sensor_measure();
-		xTaskDelayUntil(&xLastWakeTime, xFrequency2);
+		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
 		
-		printf("Last recorded co2 value: %u\n",co2_sensor_get_last_reading());
+		co2_sensor_get_last_reading();
 		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
 	}
 }

@@ -60,13 +60,20 @@ void temperature_measure(){
 
 int16_t temperature_getLatestTemperature(){
 	
-	int16_t measuredTemperature =  hih8120_getTemperature_x10();
+	int16_t measuredTemperature = hih8120_getTemperature_x10();
+	printf("Latest recorded temp: %d\n", measuredTemperature);
+	return measuredTemperature;
+}
+int16_t temperature_getLatestTemperatureWithoutPrint(){
+	
+	int16_t measuredTemperature = hih8120_getTemperature_x10();
 	return measuredTemperature;
 }
 
 int16_t humidity_getLatestHumidity()
 {
 	int16_t measureHumidity = hih8120_getHumidityPercent_x10();
+	printf("Latest recorded humidity: %d\n", measureHumidity);
 	return measureHumidity;
 }
 
@@ -108,7 +115,10 @@ int16_t temperature_getAvgTemperature()
 		return 0;
 	}
 	
-	return (int16_t)(sum/count);
+	int16_t average = sum/count;
+	
+	printf("Latest Average Temp read: %d\n", average);
+	return average;
 }
 
 int16_t get_minimum_value(int16_t readings[BUFFER_SIZE])
@@ -155,29 +165,14 @@ void temperature_task(void* pvParameters){
 		printf("Temperature/Humidity Task started\n");
 		
 		temperature_wakeup();
-		xTaskDelayUntil(&xLastWakeTime, xFrequency2);
-		
+		vTaskDelay(xFrequency2);
 		
 		temperature_measure();
-		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
-		
-		//Last Temperature
-		printf("Last measure temperature: %d\n",temperature_getLatestTemperature());
-		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
+		vTaskDelay(xFrequency1);
 		
 		//Temp average
-		int16_t reading = hih8120_getTemperature_x10();
+		int16_t reading = temperature_getLatestTemperatureWithoutPrint();
 		store_data_in_buffer(reading);
-		printf("Latest Average Temp read: %d\n", temperature_getAvgTemperature());
-		xTaskDelayUntil(&xLastWakeTime, xFrequency1);
-		
-		//Get min value
-		//Get max value
-		
-		// Humidity
-		printf("Latest Humidity Measured: %d\n", humidity_getLatestHumidity());
-		
-		
 		
 		//wait 30 seconds for next measurement
 		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
