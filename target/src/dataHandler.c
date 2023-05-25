@@ -8,15 +8,12 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <ATMEGA_FreeRTOS.h>
-#include <semphr.h>
+#include <dataHandler.h>
 
 static int16_t dataHandlerTemperature;
 static int16_t dataHandlerHumidity;
 static int16_t dataHandlerAvgTemperature;
 static uint16_t dataHandlerCo2;
-
-
 //For Temperature
 int16_t dataHandler_getTempData()
 {
@@ -50,14 +47,4 @@ void dataHandler_setHumidity(int16_t sensorHumidity)
 int16_t dataHandler_getHumData()
 {
 	return dataHandlerHumidity;
-}
-
-void dataHandler_setCo2(uint16_t sensorCo2)
-{
-	dataHandlerCo2 = sensorCo2;
-}
-
-uint16_t dataHandler_getCo2Data()
-{
-	return dataHandlerCo2;
 }

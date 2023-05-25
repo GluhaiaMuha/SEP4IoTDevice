@@ -9,8 +9,6 @@
 #pragma once
 #include <stdlib.h>
 #include <stdint.h>
-#include <ATMEGA_FreeRTOS.h>
-#include <task.h>
 
 int16_t dataHandler_getTempData();
 void dataHandler_setTemperature(int16_t sensorTemperature);
