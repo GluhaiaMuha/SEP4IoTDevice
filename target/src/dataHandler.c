@@ -48,3 +48,8 @@ int16_t dataHandler_getHumData()
 {
 	return dataHandlerHumidity;
 }
+
+void dataHandler_setCo2(uint16_t co2)
+{
+	dataHandlerCo2 = co2;
+}
