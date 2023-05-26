@@ -44,6 +44,9 @@ jobs:
         lcov --directory . --capture --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
 
+    - name: List files
+      run: cd ${{github.workspace}}/build && ls -R
+
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
