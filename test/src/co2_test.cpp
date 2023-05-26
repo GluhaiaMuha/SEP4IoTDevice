@@ -26,12 +26,7 @@ protected:
 
 TEST_F(CO2_test, Should_call_mh_z19_initialise_when_co2_sensor_create_is_called)
 {
-	// Arrange
-//	mh_z19_initialise_fake.custom_fake = [](int arg) {
-//		// Custom behavior for the mock function
-//		EXPECT_EQ(arg, ser_USART3); // Check the argument passed to the mock function
-//	};
-
+    
 	// Act
 	co2_sensor_create();
 
@@ -92,7 +87,6 @@ TEST_F(CO2_test, Should_fail_to_measure_when_mh_z19_takeMeassuring_returns_error
 
     // Assert
     EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1);
-    // Add more assertions or expectations as needed
 }
 
 
