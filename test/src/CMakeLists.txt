@@ -3,6 +3,9 @@ target_sources(
     temperature_test.cpp
     temperature_test_freertos.cpp
     lora_test.cpp
+    servo_test.cpp
+    co2_test.cpp
+
 )
 
 include_directories()
