@@ -27,6 +27,8 @@ set(SOURCES_TEST
     ../target/src/co2.c
     ../target/src/temperature.c
     ../target/src/LoRaWANHandler.c
+    ../target/src/dataHandler.c
+    ../target/src/sensorHandler.c
     ${SRCS}
 )
 
