@@ -48,14 +48,11 @@ jobs:
         cd ${{github.workspace}}/build
         lcov --directory . --capture --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
-
     - name: List files
       run: cd ${{github.workspace}}/build && ls -R
 
     - name: Coveralls
-      uses: coverallsapp/github-action@v2
+      uses: coverallsapp/github-action@v1
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
-        flag-name: run-${{ matrix.test_number }}
         path-to-lcov: ./build/coverage.info
-        parallel: true
