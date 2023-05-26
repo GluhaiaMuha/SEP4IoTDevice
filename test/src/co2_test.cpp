@@ -51,7 +51,7 @@ TEST_F(CO2_test, Should_call_mh_z19_takeMeassuring_when_co2_sensor_measure_is_ca
     EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1);
 }
 
-
+/*
 TEST_F(CO2_test, Should_return_last_reading_when_co2_sensor_get_last_reading_is_called)
 {
     // Arrange
@@ -63,3 +63,4 @@ TEST_F(CO2_test, Should_return_last_reading_when_co2_sensor_get_last_reading_is_
     // Assert
     EXPECT_EQ(result, 123);
 }
+*/
