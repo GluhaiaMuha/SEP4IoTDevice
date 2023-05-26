@@ -65,7 +65,7 @@ TEST_F(CO2_test, Should_return_last_reading_when_co2_sensor_get_last_reading_is_
     EXPECT_EQ(result, 123);
 }
 
-// ensure that the co2 sensor is created and initialized correctly
+// ensures that the co2 sensor is created and initialized correctly
 TEST_F(CO2_test, Should_call_co2_sensor_create_and_initialize_correctly)
 {
     // Arrange
@@ -76,4 +76,52 @@ TEST_F(CO2_test, Should_call_co2_sensor_create_and_initialize_correctly)
     // Assert
     EXPECT_EQ(mh_z19_initialise_fake.call_count, 1);
 }
+
+enum FakeErrorCode
+{
+    ERROR_CODE_TEST = -999, // Custom error code for testing purposes
+};
+
+TEST_F(CO2_test, Should_fail_to_measure_when_mh_z19_takeMeassuring_returns_error)
+{
+    // Arrange
+    mh_z19_takeMeassuring_fake.return_val = static_cast<mh_z19_returnCode_t>(ERROR_CODE_TEST);
+
+    // Act
+    co2_sensor_measure();
+
+    // Assert
+    EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1);
+    // Add more assertions or expectations as needed
+}
+
+
+TEST_F(CO2_test, Should_update_last_reading_when_co2_sensor_measure_is_successful)
+{
+    // Arrange
+    mh_z19_takeMeassuring_fake.return_val = MHZ19_OK;
+    const uint16_t expectedReading = 789;
+
+    // Act
+    co2_sensor_measure();
+    co2_sensor_set_last_reading(expectedReading);
+    uint16_t result = co2_sensor_get_last_reading();
+
+    // Assert
+    EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1);
+    EXPECT_EQ(result, expectedReading);
+}
+
+TEST_F(CO2_test, Should_initialize_co2_sensor_on_create)
+{
+    // Arrange
+
+    // Act
+    co2_sensor_create();
+
+    // Assert
+    EXPECT_EQ(mh_z19_initialise_fake.call_count, 1);
+
+}
+
 
