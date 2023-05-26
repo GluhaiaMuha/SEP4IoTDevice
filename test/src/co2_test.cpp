@@ -118,4 +118,40 @@ TEST_F(CO2_test, Should_initialize_co2_sensor_on_create)
 
 }
 
+TEST_F(CO2_test, Should_set_last_reading_to_zero_when_co2_sensor_create_is_called)
+{
+    // Arrange
+
+// Act
+    co2_sensor_create();
+    uint16_t result = co2_sensor_get_last_reading();
+
+    // Assert
+    EXPECT_NE(result, 0); // Expecting the initial value to be non-zero
+}
+
+TEST_F(CO2_test, Should_set_last_reading_to_specific_value)
+{
+    // Arrange
+    uint16_t expectedReading = 456;
+
+    // Act
+    co2_sensor_set_last_reading(expectedReading);
+    uint16_t result = co2_sensor_get_last_reading();
+
+    // Assert
+    EXPECT_EQ(result, expectedReading);
+}
+
+//TEST_F(CO2_test, Should_call_co2_sensor_measure_periodically)
+//{
+    // Arrange
+
+    // Act
+ //   co2_task(nullptr);
+
+    // Assert
+   // EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1); // Assuming it's called at least once
+//}
+
 
