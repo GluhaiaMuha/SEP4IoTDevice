@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/GluhaiaMuha/SEP4IoTDevice/badge.svg?branch=refs/heads/workflow)](https://coveralls.io/github/GluhaiaMuha/SEP4IoTDevice?branch=refs/heads/workflow)
+
 # Setting up the project
 In order to run the tests make sure you have installed:
 - PlatformIO extension
