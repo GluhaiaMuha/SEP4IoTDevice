@@ -64,3 +64,16 @@ TEST_F(CO2_test, Should_return_last_reading_when_co2_sensor_get_last_reading_is_
     // Assert
     EXPECT_EQ(result, 123);
 }
+
+// ensure that the co2 sensor is created and initialized correctly
+TEST_F(CO2_test, Should_call_co2_sensor_create_and_initialize_correctly)
+{
+    // Arrange
+
+    // Act
+    co2_sensor_create();
+
+    // Assert
+    EXPECT_EQ(mh_z19_initialise_fake.call_count, 1);
+}
+
