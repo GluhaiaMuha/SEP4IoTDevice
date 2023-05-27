@@ -11,12 +11,15 @@
 
 #include <lora_driver.h>
 #include <status_leds.h>
-#include <LoRaWANHandler.h>
 
+#include <dataHandler.h>
+#include <sensorHandler.h>
 
-// Parameters for OTAA join - You have got these in a mail from IHA
-#define LORA_appEUI "XXXXXXXXXXXXXXX"
-#define LORA_appKEY "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+// Parameters for OTAA join
+#define LORA_appEUI "E3F46724321C3AFF"
+#define LORA_appKEY "70392C359F1F97A044173202961DB664"
+
+void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
@@ -31,6 +34,10 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 	,  NULL );
 }
 
+
+/************************************************************************/
+/* Don't touch, sh*t may happen                                         */
+/************************************************************************/
 void _lora_setup(void)
 {
 	char _out_buf[20];
@@ -118,7 +125,7 @@ void lora_handler_task( void *pvParameters )
 
 	_lora_setup();
 
-	_uplink_payload.len = 6;
+	_uplink_payload.len = 8;
 	_uplink_payload.portNo = 2;
 
 	TickType_t xLastWakeTime;
@@ -129,10 +136,11 @@ void lora_handler_task( void *pvParameters )
 	{
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );
 
-		// Some dummy payload
-		uint16_t hum = 12345; // Dummy humidity
-		int16_t temp = 675; // Dummy temp
+
+		uint16_t hum = dataHandler_getHumData();
+		int16_t temp = dataHandler_getTempData();
 		uint16_t co2_ppm = 1050; // Dummy CO2
+		int16_t avgTemp = dataHandler_getAvgTempeature();
 
 		_uplink_payload.bytes[0] = hum >> 8;
 		_uplink_payload.bytes[1] = hum & 0xFF;
@@ -140,9 +148,10 @@ void lora_handler_task( void *pvParameters )
 		_uplink_payload.bytes[3] = temp & 0xFF;
 		_uplink_payload.bytes[4] = co2_ppm >> 8;
 		_uplink_payload.bytes[5] = co2_ppm & 0xFF;
+		_uplink_payload.bytes[6] = avgTemp >> 8;
+		_uplink_payload.bytes[7] = avgTemp & 0xFF;
 
 		status_leds_shortPuls(led_ST4);  // OPTIONAL
 		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-	
 	}
 }

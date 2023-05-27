@@ -21,12 +21,13 @@ FetchContent_MakeAvailable(googletest )
 set(SOURCES_TEST
     src/co2_test.cpp
     src/temperature_test.cpp
-    src/temperature_test_freertos.cpp
     src/lora_test.cpp
     src/FreeRTOS_defs/FreeRTOS_FFF_MocksDefinitions.cpp
     ../target/src/co2.c
     ../target/src/temperature.c
     ../target/src/LoRaWANHandler.c
+    ../target/src/dataHandler.c
+    ../target/src/sensorHandler.c
     ${SRCS}
 )
 

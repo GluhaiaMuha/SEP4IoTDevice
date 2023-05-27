@@ -10,7 +10,7 @@
 #include <co2.h>
 
 
-static uint16_t lastCo2Recorded;;
+static uint16_t lastCo2Recorded;
 
 void co2_sensor_create()
 {
@@ -37,6 +37,11 @@ uint16_t co2_sensor_get_last_reading()
 {
 	// Return the last CO2 reading
 	return lastCo2Recorded;
+}
+
+void co2_sensor_set_last_reading(uint16_t co2_reading)
+{
+	lastCo2Recorded = co2_reading;
 }
 
 void co2_task(void* pvParameters)
