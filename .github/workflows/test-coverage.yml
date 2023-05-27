@@ -22,14 +22,6 @@ jobs:
         sudo apt update -y
         sudo apt install -y lcov
 
-    - name: Install PlatformIO
-      run: |
-        python -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
-
-    - name: Run PlatformIO
-      run: |
-        platformio test --environment native
-
     - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
@@ -47,13 +39,10 @@ jobs:
 
     - name: Coverage
       run: |
-       cd ${{github.workspace}}/build
-       lcov --directory . --capture --output-file coverage_test.info
-       lcov --remove coverage_test.info '/usr/*' --output-file coverage_test.info
-       lcov --directory .pio/build/native --capture --output-file coverage_target.info
-       lcov --remove coverage_target.info '/usr/*' --output-file coverage_target.info
-       lcov --add-tracefile coverage_test.info --add-tracefile coverage_target.info --output-file coverage_total.info
-       lcov --remove coverage_total.info '*/test/*' --output-file coverage_total.info
+        cd ${{github.workspace}}/build
+        lcov --directory . --capture --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/test/*' --output-file coverage.info
+        lcov --list coverage.info
     - name: List files
       run: cd ${{github.workspace}}/build && ls -R
 
