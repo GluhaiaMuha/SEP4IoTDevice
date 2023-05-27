@@ -1,5 +1,4 @@
 **/build/**
-**/CMakeFiles/**
 test/test_result.xml
 target/firmware.zip
 firmware.*

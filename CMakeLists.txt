@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.14)
 project(TopLevel)
 
-set(CMAKE_SYSTEM_VERSION "10.0.22000.0" CACHE STRING "" FORCE)
-
 add_subdirectory(test)
