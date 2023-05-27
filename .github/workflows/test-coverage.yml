@@ -2,9 +2,9 @@ name: Test Coverage with Coveralls
 
 on:
     push:
-      branches: [ "project_test_setup", "workflow"]
+      branches: [ "project_test_setup"]
     pull_request:
-      branches: [ "project_test_setup", "workflow"]  
+      branches: [ "project_test_setup"]  
 
 env:
   BUILD_TYPE: Debug
