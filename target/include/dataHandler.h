@@ -7,8 +7,12 @@
  */ 
 
 #pragma once
-#include <stdlib.h>
-#include <stdint.h>
+#include "stdint.h"
+
+struct ServoLimits{
+	int16_t minTempLimit;
+	int16_t maxTempLimit;
+};
 
 int16_t dataHandler_getTempData();
 void dataHandler_setTemperature(int16_t sensorTemperature);
@@ -21,3 +25,6 @@ int16_t dataHandler_getHumData();
 
 void dataHandler_setCo2(uint16_t sensorCo2);
 uint16_t dataHandler_getCo2Data();
+
+struct ServoLimits dataHandler_getLimits();
+void dataHandler_setTempLimits(int16_t minTemp, int16_t maxTemp);
