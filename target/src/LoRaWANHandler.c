@@ -38,7 +38,7 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority)
 /************************************************************************/
 /* Don't touch, sh*t may happen                                         */
 /************************************************************************/
-static void _lora_setup(void)
+void _lora_setup(void)
 {
 	char _out_buf[20];
 	lora_driver_returnCode_t rc;
