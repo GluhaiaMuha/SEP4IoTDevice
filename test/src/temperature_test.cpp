@@ -146,6 +146,26 @@ TEST_F(Temperature_test, Should_return_0_when_readings_buffer_is_empty_when_temp
   EXPECT_EQ(temperature_getAvgTemperature(), 0);
 }
 
+TEST_F(Temperature_test, Should_return_min_value_out_of_all_readings_when_get_minimum_value_is_called)
+{
+  int16_t readings[BUFFER_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int16_t expected_min = 1;
+
+  int16_t result = get_minimum_value(readings);
+
+  EXPECT_EQ(result, expected_min);
+}
+
+TEST_F(Temperature_test, Should_return_max_value_out_of_all_readings_when_get_minimum_value_is_called)
+{
+  int16_t readings[BUFFER_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int16_t expected_max = 10;
+
+  int16_t result = get_maximum_value(readings);
+
+  EXPECT_EQ(result, expected_max);
+}
+
 class Temperature_freertos_test : public ::testing::Test
 {
 protected:
