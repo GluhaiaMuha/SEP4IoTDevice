@@ -23,6 +23,8 @@ void task2( void *pvParameters );
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
 
+MessageBufferHandle_t downLinkMessageBufferHandle;
+
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 
@@ -81,7 +83,7 @@ void initialiseSystem()
 	status_leds_initialise(5); // Priority 5 for internal task
 	
 	//Initialise the LoRaWAN driver with downlink
-	MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
 	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
 
 	

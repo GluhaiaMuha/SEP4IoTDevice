@@ -23,10 +23,10 @@ void lora_handler_task( void *pvParameters );
 
 static lora_driver_payload_t _uplink_payload;
 
-MessageBufferHandle_t downLinkMessageBufferHandle;
+extern MessageBufferHandle_t downLinkMessageBufferHandle;
 
 
-void lora_handler_initialise(UBaseType_t lora_handler_task_priority, MessageBufferHandle_t downLinkMessageBufferHandle)
+void lora_handler_initialise(UBaseType_t lora_handler_task_priority, MessageBufferHandle_t downLinkMessageBuffer)
 {
 	xTaskCreate(
 	lora_handler_task
@@ -166,7 +166,7 @@ void lora_handler_task( void *pvParameters )
 		{
 			printf("Uplink Sent without downlink to be received\n");
 		}
-		else if (rc == LORA_MAC_TX_OK)
+		else if (rc == LORA_MAC_RX)
 		{
 			xMessageBufferReceive(downLinkMessageBufferHandle, &downlinkPayload, sizeof(lora_driver_payload_t), portMAX_DELAY);
 			int16_t minTemperatureSetting  = (downlinkPayload.bytes[0] << 8) + downlinkPayload.bytes[1];
