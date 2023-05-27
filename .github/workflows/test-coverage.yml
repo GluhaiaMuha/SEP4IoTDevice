@@ -39,11 +39,9 @@ jobs:
 
     - name: Coverage
       run: |
-        cd ${{github.workspace}}/build
-        lcov --directory . --capture --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' --output-file coverage.info
-        lcov --add-tracefile coverage.info ../target/build/coverage.info --output-file coverage_total.info
-        lcov --remove coverage_total.info 'build/_deps/*' --output-file coverage_total.info
+       cd ${{github.workspace}}/build
+       lcov --directory . --capture --output-file coverage.info
+       lcov --remove coverage.info '/usr/*' --output-file coverage.info
     - name: List files
       run: cd ${{github.workspace}}/build && ls -R
 
