@@ -10,6 +10,7 @@
 #pragma once
 #include <stdlib.h>
 #include <stdint.h>
+#define BUFFER_SIZE 10
 
 void temperature_create();
 void temperature_wakeup();
@@ -24,3 +25,6 @@ void temperature_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency1,Tick
 void temperature_task(void* pvParameters);
 int16_t get_maximum_value(int16_t readings[]);
 int16_t get_minimum_value(int16_t readings[]);
+
+//to set buffer for testing
+extern int16_t readings[BUFFER_SIZE];
