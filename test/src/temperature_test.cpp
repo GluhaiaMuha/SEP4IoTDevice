@@ -92,6 +92,39 @@ TEST_F(Temperature_test, Should_return_correct_value_when_humidity_getLatestHumi
   EXPECT_EQ(_humidity, 5);
 }
 
+TEST_F(Temperature_test, Should_store_data_in_buffer){
+  //clear readings
+  memset(readings, 0, sizeof(readings));
+
+  store_data_in_buffer(10);
+  store_data_in_buffer(11);
+  store_data_in_buffer(12);
+  EXPECT_EQ(readings[0], 10);
+  EXPECT_EQ(readings[1], 11);
+  EXPECT_EQ(readings[2], 12);
+}
+
+TEST_F(Temperature_test, Should_overwrite_readings_when_buffer_is_full){
+  //For BUFFER_SIZE = 10
+  store_data_in_buffer(10);
+  store_data_in_buffer(11);
+  store_data_in_buffer(12);
+  
+  store_data_in_buffer(13);
+  store_data_in_buffer(14);
+  store_data_in_buffer(15);
+
+  store_data_in_buffer(16);
+  store_data_in_buffer(17);
+  store_data_in_buffer(18);
+
+  store_data_in_buffer(19);
+  store_data_in_buffer(20);
+  EXPECT_EQ(readings[0], 11);
+}
+
+
+
 class Temperature_freertos_test : public ::testing::Test
 {
 protected:
@@ -128,13 +161,6 @@ TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_temperature_
   EXPECT_EQ(2, vTaskDelay_fake.call_count);
 }
 /*
-TEST_F(Temperature_test, Should_store_data_in_buffer){
-  //clear readings
-  memset(readings, 0, sizeof(readings));
-
-  store_data_in_buffer(10);
-  EXPECT_EQ(readings[0], 10);
-}
 
 TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getAvgTemperature_is_called)
 {
