@@ -1,11 +1,4 @@
 
-/*
- * co2.c
- *
- * Created: 5/9/2023 9:55:56 PM
- *  Author: Marius, Mihail
- */ 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -15,21 +8,32 @@
 
 #include "../Headers/co2.h"
 
+uint16_t lastCO2Recorded;
+mh_z19_returnCode_t status;
 
-static uint16_t lastCo2Recorded;;
+
+void co2_callback(uint16_t level)
+{
+	lastCO2Recorded = level;
+}
+
+
 
 void co2_sensor_create()
 {
 	mh_z19_initialise(ser_USART3);
-	printf("Initialization of Co2 sensor successfully\n");
+	mh_z19_injectCallBack(co2_callback);
 
+	
 }
+
+
+
 
 void co2_sensor_measure()
 {
 	// Trigger a new CO2 measurement
 	mh_z19_returnCode_t status = mh_z19_takeMeassuring();
-	
 	if (status != MHZ19_OK)
 	{
 		printf("Measure of MHZ19 failed!\n");
@@ -39,11 +43,14 @@ void co2_sensor_measure()
 	}
 }
 
+
 uint16_t co2_sensor_get_last_reading()
 {
+	
 	// Return the last CO2 reading
-	return lastCo2Recorded;
+	return lastCO2Recorded;
 }
+
 
 void co2_task(void* pvParameters)
 {

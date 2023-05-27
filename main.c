@@ -14,6 +14,7 @@
 
 #include "Headers/sensorHandler.h"
 #include "Headers/temperature.h"
+#include "Headers/servo.h"
 
 // define two Tasks
 void task1( void *pvParameters );
@@ -21,6 +22,8 @@ void task2( void *pvParameters );
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
+
+MessageBufferHandle_t downLinkMessageBufferHandle;
 
 // Prototype for LoRaWAN handler
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
@@ -44,6 +47,16 @@ void create_tasks_and_semaphores(void)
 	,  NULL
 	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
 	,  NULL );
+
+
+	xTaskCreate(
+	servo_createTask
+	,  "servoHandlerTask"
+	,  configMINIMAL_STACK_SIZE
+	,  NULL
+	,  2
+	,  NULL );
+	
 }
 
 
@@ -59,14 +72,21 @@ void initialiseSystem()
 	//Create the temp sensor through sensorHandler
 	sensorsHandler_createSensors();
 	
+	//Create servo
+	servo_create();
+	
 	// Let's create some tasks
 	create_tasks_and_semaphores();
 
 	// ****************** BELOW IS LoRaWAN initialisation **************************
 	// Status Leds driver
 	status_leds_initialise(5); // Priority 5 for internal task
-	// Initialise the LoRaWAN driver without down-link buffer
-	lora_driver_initialise(1, NULL);
+	
+	//Initialise the LoRaWAN driver with downlink
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
+	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
+
+	
 	// Create LoRaWAN task and start it up with priority 3
 	lora_handler_initialise(3);
 }
