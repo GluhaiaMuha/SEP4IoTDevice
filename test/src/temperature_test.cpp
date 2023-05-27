@@ -1,13 +1,16 @@
 #include <gtest/gtest.h>
 #include "fff/fff.h"
+#include "FreeRTOS_defs/FreeRTOS_FFF_MocksDeclaration.h"
 
 extern "C"
 {
-	#include <temperature.h>
-  #include <hih8120.h>
-
-  #define BUFFER_SIZE 10
-  //int16_t readings[BUFFER_SIZE];
+#include <temperature.h>
+#include <hih8120.h>
+#include <FreeRTOS.h>
+#include <ATMEGA_FreeRTOS.h>
+#include <task.h>
+#define BUFFER_SIZE 10
+  // int16_t readings[BUFFER_SIZE];
 }
 
 DEFINE_FFF_GLOBALS;
@@ -21,66 +24,108 @@ FAKE_VALUE_FUNC(uint16_t, hih8120_getHumidityPercent_x10);
 class Temperature_test : public ::testing::Test
 {
 protected:
-	void SetUp() override
-	{
-		RESET_FAKE(hih8120_initialise);
+  void SetUp() override
+  {
+    RESET_FAKE(hih8120_initialise);
     RESET_FAKE(hih8120_wakeup);
     RESET_FAKE(hih8120_measure);
     RESET_FAKE(hih8120_getTemperature_x10);
     RESET_FAKE(hih8120_getHumidityPercent_x10);
-		FFF_RESET_HISTORY();
-	}
-	void TearDown() override
-	{}
+    FFF_RESET_HISTORY();
+  }
+  void TearDown() override
+  {
+  }
 };
- 
-TEST_F(Temperature_test, Should_call_hih8120_initialise_when_temperature_create_is_called){
-  //Arrange
+
+TEST_F(Temperature_test, Should_call_hih8120_initialise_when_temperature_create_is_called)
+{
+  // Arrange
   hih8120_initialise_fake.return_val = HIH8120_OK;
-  //Act
+  // Act
   temperature_create();
-  //Assert
+  // Assert
   EXPECT_EQ(hih8120_initialise_fake.call_count, 1);
 }
 
-TEST_F(Temperature_test, Should_call_hih8120_wakeup_when_temperature_wakeup_is_called){
-  //Arrange
+TEST_F(Temperature_test, Should_call_hih8120_wakeup_when_temperature_wakeup_is_called)
+{
+  // Arrange
   hih8120_wakeup_fake.return_val = HIH8120_OK;
-  //Act
+  // Act
   temperature_wakeup();
-  //Assert
+  // Assert
   EXPECT_EQ(hih8120_wakeup_fake.call_count, 1);
 }
 
-TEST_F(Temperature_test, Should_call_hih8120_measure_when_temperature_measure_is_called){
-  //Arrange
+TEST_F(Temperature_test, Should_call_hih8120_measure_when_temperature_measure_is_called)
+{
+  // Arrange
   hih8120_measure_fake.return_val = HIH8120_OK;
-  //Act
+  // Act
   temperature_measure();
-  //Assert
+  // Assert
   EXPECT_EQ(hih8120_measure_fake.call_count, 1);
 }
 
-TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getLatestTemperature_is_called){
-  //Arrange
+TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getLatestTemperature_is_called)
+{
+  // Arrange
   hih8120_getTemperature_x10_fake.return_val = 30;
   int16_t _temperature;
-  //Act
+  // Act
   _temperature = temperature_getLatestTemperature();
-  //Assert
+  // Assert
   EXPECT_EQ(hih8120_getTemperature_x10_fake.call_count, 1);
   EXPECT_EQ(_temperature, 30);
 }
 
-TEST_F(Temperature_test, Should_return_correct_value_when_humidity_getLatestHumidity_is_called){
-  //Arrange
+TEST_F(Temperature_test, Should_return_correct_value_when_humidity_getLatestHumidity_is_called)
+{
+  // Arrange
   hih8120_getHumidityPercent_x10_fake.return_val = 5;
   uint16_t _humidity;
-  //Act
+  // Act
   _humidity = humidity_getLatestHumidity();
-  //Assert
+  // Assert
   EXPECT_EQ(hih8120_getHumidityPercent_x10_fake.call_count, 1);
   EXPECT_EQ(_humidity, 5);
+}
+
+class Temperature_freertos_test : public ::testing::Test
+{
+protected:
+  void SetUp() override
+  {
+    RESET_FAKE(vTaskDelay);
+    RESET_FAKE(xTaskCreate);
+    RESET_FAKE(xSemaphoreTake);
+    RESET_FAKE(xSemaphoreGive);
+    RESET_FAKE(xTaskGetTickCount);
+    RESET_FAKE(xTaskDelayUntil);
+    FFF_RESET_HISTORY();
+  }
+  void TearDown() override
+  {
+  }
+};
+
+TEST_F(Temperature_freertos_test, temperature_task_init_is_called)
+{
+  temperature_task_init();
+
+  ASSERT_EQ(hih8120_initialise_fake.call_count, 1);
+}
+
+TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_temperature_task_run_is_called){
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+	TickType_t xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
+	TickType_t xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
+	TickType_t xFrequency3 = 30000/portTICK_PERIOD_MS; // 30000 ms
+
+  temperature_task_run(&xLastWakeTime, xFrequency1, xFrequency2, xFrequency3);
+
+  EXPECT_EQ(2, vTaskDelay_fake.call_count);
 }
 /*
 TEST_F(Temperature_test, Should_store_data_in_buffer){
