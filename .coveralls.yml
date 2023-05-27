@@ -5,3 +5,4 @@ exclude:
   - "target/lib/drivers/*"
   - "target/lib/FreeRTOS/*"
   - "test/src/FreeRTOS_defs/*"
+  - "build/*"
