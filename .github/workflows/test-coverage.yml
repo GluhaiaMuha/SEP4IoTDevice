@@ -2,9 +2,9 @@ name: Test Coverage with Coveralls
 
 on:
     push:
-      branches: [ "project_test_setup", "workflow"]
+      branches: [ "project_test_setup"]
     pull_request:
-      branches: [ "project_test_setup", "workflow"]  
+      branches: [ "project_test_setup"]  
 
 env:
   BUILD_TYPE: Debug
@@ -39,9 +39,10 @@ jobs:
 
     - name: Coverage
       run: |
-       cd ${{github.workspace}}/build
-       lcov --directory . --capture --output-file coverage.info
-       lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        cd ${{github.workspace}}/build
+        lcov --directory . --capture --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' '*/test/*' --output-file coverage.info
+        lcov --list coverage.info
     - name: List files
       run: cd ${{github.workspace}}/build && ls -R
 
