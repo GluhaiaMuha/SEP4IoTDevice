@@ -62,7 +62,7 @@ TEST_F(ServoTest, ShouldCallRcServoSetPositionWithCorrectParametersWhenServoTurn
     EXPECT_EQ(rc_servo_setPosition_fake.arg1_val, position);
 }
 
-/*
+
 TEST_F(ServoTest, ShouldCallServoTurnOffWhenTemperatureBelowMinLimit) {
     // Arrange
     int16_t temperature = 10;
@@ -78,4 +78,3 @@ TEST_F(ServoTest, ShouldCallServoTurnOffWhenTemperatureBelowMinLimit) {
     EXPECT_EQ(rc_servo_setPosition_fake.arg1_val, 0);
 }
 
-*/

@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "--coverage")
 set(CMAKE_C_FLAGS "--coverage")
 
+
 set(DOWNLOAD_EXTRACT_TIMESTAMP true)
 
 include(FetchContent)
@@ -36,6 +37,8 @@ set(SOURCES_TEST
     ../target/src/servo.c
     ${SRCS}
 )
+
+
 
 
 # This makes the test.cpp files able to #include target libraries without errors.  
