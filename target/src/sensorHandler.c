@@ -54,7 +54,7 @@ void sensorHandler_task_init()
 void sensorHandler_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency)
 {
 	printf("SensorHandler Task Started\n");
-	xTaskDelayUntil(&xLastWakeTime, xFrequency);
+	xTaskDelayUntil(xLastWakeTime, xFrequency);
 
 	lastTempRecorded = temperature_getLatestTemperature();
 	dataHandler_setTemperature(lastTempRecorded);
