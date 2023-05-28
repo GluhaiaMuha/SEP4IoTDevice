@@ -52,7 +52,7 @@ void servo_turnOff()
 
 
 
-static limitResult servo_compareTemperatureData(int16_t temperature, int16_t minLimit, int16_t maxLimit)
+limitResult servo_compareTemperatureData(int16_t temperature, int16_t minLimit, int16_t maxLimit)
 {
 	limitResult result;
 	if (temperature >= minLimit && temperature <= maxLimit)
