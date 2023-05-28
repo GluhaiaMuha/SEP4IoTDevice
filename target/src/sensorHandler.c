@@ -21,7 +21,7 @@ static int16_t lastHumidityRecorded;
 static int16_t lastAvgRecorded;
 static uint16_t lastCo2Recorded;
 
-TickType_t xLastWakeTime;
+TickType_t xLatestWakeTime;
 TickType_t xFrequency;
 
 void sensorsHandler_createSensors()
@@ -47,7 +47,7 @@ void sensorsHandler_createSensors()
 /************************************************************************/
 void sensorHandler_task_init()
 {
-	xLastWakeTime = xTaskGetTickCount();
+	xLatestWakeTime = xTaskGetTickCount();
 	xFrequency = 30000 / portTICK_PERIOD_MS; // 300000 ms == 5 mins
 }
 
@@ -76,6 +76,6 @@ void sensorsHandler_task(void *pvParameters)
 
 	for (;;)
 	{
-		sensorHandler_task_run(&xLastWakeTime, xFrequency);
+		sensorHandler_task_run(&xLatestWakeTime, xFrequency);
 	}
 }
