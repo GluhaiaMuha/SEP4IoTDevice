@@ -29,3 +29,5 @@ uint16_t dataHandler_getCo2Data();
 struct ServoLimits dataHandler_getLimits();
 void dataHandler_setTempLimits(int16_t minTempLimit, int16_t maxTempLimit);
 
+void dataHandler_createSemaphoreAndMutexes();
+
