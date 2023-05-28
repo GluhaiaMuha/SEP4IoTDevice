@@ -7,6 +7,7 @@ extern "C"
 #include <lora_driver.h>
 #include <status_leds.h>
 #include <LoRaWANHandler.h>
+#include <dataHandler.h>
 }
 
 FAKE_VOID_FUNC(lora_driver_resetRn2483, uint8_t);
@@ -96,6 +97,32 @@ TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_A
   EXPECT_EQ(lora_driver_join_fake.call_count, 1);
 }
 
+TEST_F(Lora_test, Should_call_lora_driver_sendUploadMessage_when_lora_handler_run_is_called)
+{
+  TickType_t xWakeTime;
+  TickType_t xFrequency = 30000 / portTICK_PERIOD_MS;
+  lora_driver_join_fake.return_val = LORA_ACCEPTED;
+  lora_driver_sendUploadMessage_fake.return_val = LORA_ACCEPTED;
+  lora_handler_run(&xWakeTime , xFrequency);
+  EXPECT_EQ(lora_driver_sendUploadMessage_fake.call_count, 1);
+}
+
+TEST_F(Lora_test, Should_send_two_messages_when_lora_handler_task_is_called_twice)
+{
+  TickType_t xWakeTime;
+  TickType_t xFrequency = 30000 / portTICK_PERIOD_MS;
+  lora_driver_join_fake.return_val = LORA_ACCEPTED;
+  lora_driver_sendUploadMessage_fake.return_val = LORA_ACCEPTED;
+
+  for(int i=0; i<2; i++)
+  {
+    lora_handler_run(&xWakeTime , xFrequency);
+  }
+
+  EXPECT_EQ(lora_driver_sendUploadMessage_fake.call_count, 2);
+}
+
+
 /*
 TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_ERROR)
 {
@@ -138,36 +165,5 @@ TEST_F(Lora_test, Should_join_LoRaWAN_during_second_try_when_lora_setup_is_calle
   _lora_setup();
   EXPECT_EQ(lora_driver_join_fake.call_count, 2);
   EXPECT_EQ(vTaskDelay_fake.call_count, 1);
-}
-
-TEST_F(Lora_test, Should_send_two_messages_when_lora_handler_task_is_called_twice)
-{
-  lora_driver_sendUploadMessage_fake.return_val = LORA_ACCEPTED;
-
-  for(int i=0; i<2; i++)
-  {
-    lora_handler_task(nullptr);
-  }
-
-  EXPECT_EQ(lora_driver_sendUploadMessage_fake.call_count, 2);
-}
-
-TEST_F(Lora_test, Should_send_an_upload_message_when_lora_handler_task_is_called)
-{
-  lora_driver_payload_t _uplink_payload;
-  uint16_t hum = 12345;    // Dummy humidity
-  int16_t temp = 675;      // Dummy temp
-  uint16_t co2_ppm = 1050; // Dummy CO2
-
-  _uplink_payload.bytes[0] = hum >> 8;
-  _uplink_payload.bytes[1] = hum & 0xFF;
-  _uplink_payload.bytes[2] = temp >> 8;
-  _uplink_payload.bytes[3] = temp & 0xFF;
-  _uplink_payload.bytes[4] = co2_ppm >> 8;
-  _uplink_payload.bytes[5] = co2_ppm & 0xFF;
-
-  lora_handler_task(nullptr);
-
-  EXPECT_EQ(&_uplink_payload, lora_driver_sendUploadMessage_fake.arg1_val);
 }
 */
