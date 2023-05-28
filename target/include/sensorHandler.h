@@ -15,7 +15,7 @@
 
 void sensorsHandler_createSensors();
 void sensorHandler_task_init();
-void sensorHandler_task_run(TickType_t xFrequency);
+void sensorHandler_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency);
 void sensorsHandler_task(void *pvParameters);
 
 extern TickType_t xFrequency;
