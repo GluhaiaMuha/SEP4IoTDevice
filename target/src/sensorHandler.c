@@ -1,11 +1,5 @@
 
-/*
- * sensorHandler.c
- *
- * Created: 5/1/2023 9:57:43 PM
- *  Author: Marius
- */ 
-#include <stdlib.h>
+ #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <ATMEGA_FreeRTOS.h>
@@ -19,7 +13,7 @@
 static int16_t lastTempRecorded;
 static int16_t lastHumidityRecorded;
 static int16_t lastAvgRecorded;
-static uint16_t lastCo2Recorded;
+static uint16_t ppm;
 
 
 void sensorsHandler_createSensors()
@@ -28,19 +22,20 @@ void sensorsHandler_createSensors()
 	
 	xTaskCreate(
 	temperature_task
-	,  "temperatureTask"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+	,  "temperatureTask"
+	,  configMINIMAL_STACK_SIZE  
 	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+	,  2 
 	,  NULL );
 	
 	co2_sensor_create();
+	
 	xTaskCreate(
 	co2_task
 	, "co2Task"
 	, configMINIMAL_STACK_SIZE
 	, NULL
-	, 2
+	, 1
 	,NULL);
 
 }
@@ -56,24 +51,34 @@ void sensorsHandler_task(void* pvParameters)
 	
 	TickType_t xLastWakeTime;
 	xLastWakeTime = xTaskGetTickCount();
+	TickType_t xFrequency1 = pdMS_TO_TICKS(500);
 	const TickType_t xFrequency = 30000/portTICK_PERIOD_MS; // 300000 ms == 5 mins
 	
 	for(;;)
 	{
-		printf("SensorHandler Task Started\n");
 		xTaskDelayUntil(&xLastWakeTime, xFrequency);
+		printf("SensorHandler Task Started\n");
+		
+		vTaskDelay(xFrequency1);
 		
 		lastTempRecorded = temperature_getLatestTemperature();
 		dataHandler_setTemperature(lastTempRecorded);
 		
+		vTaskDelay(xFrequency1);
+		
 		lastAvgRecorded = temperature_getAvgTemperature();
 		dataHandler_setAvgTemperature(lastAvgRecorded);
+		
+		vTaskDelay(xFrequency1);
 		
 		lastHumidityRecorded = humidity_getLatestHumidity();
 		dataHandler_setHumidity(lastHumidityRecorded);
 		
-
-		lastCo2Recorded = co2_sensor_get_last_reading();
-		dataHandler_setCo2(lastCo2Recorded);
+		vTaskDelay(xFrequency1);
+		
+		ppm = co2_sensor_get_last_reading();
+		dataHandler_setCo2(ppm);
+		
+		vTaskDelay(xFrequency1);
 	}
 }
