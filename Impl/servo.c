@@ -23,6 +23,10 @@ static uint8_t servoNo = 0;
 static TickType_t xLastWakeTime;
 static TickType_t xFrequency;
 
+
+struct ServoLimits limits;
+int16_t minTemp, maxTemp;
+
 void servo_create(){
 
 	rc_servo_initialise();
@@ -31,11 +35,21 @@ void servo_create(){
 }
 void servo_turnOn()
 {
+	int16_t minTemp, maxTemp;
+	
 	position = 100;
 	rc_servo_setPosition(servoNo, position);
 	printf("Servo is turned on!\n");
+	
+	/*
 	struct ServoLimits limits = dataHandler_getLimits();
-	printf("Limits: %d %d\n", limits.minTempLimit, limits.maxTempLimit);
+	int16_t minTempLimit = limits.minTempLimit;
+	int16_t maxTempLimit = limits.maxTempLimit;
+	
+	printf("Limits: %d %d\n", minTempLimit, maxTempLimit);
+	
+	For testing purpose, everything works
+	*/ 
 }
 void servo_turnOff()
 {
@@ -46,7 +60,7 @@ void servo_turnOff()
 
 
 
-static limitResult co2Handler_compareData(int16_t temperature, int16_t minLimit, int16_t maxLimit)
+static limitResult servo_compareTemperatureData(int16_t temperature, int16_t minLimit, int16_t maxLimit)
 {
 	limitResult result;
 	if (temperature >= minLimit && temperature <= maxLimit)
@@ -79,8 +93,10 @@ void servoHandler_run(void)
 	
     int16_t tempData = dataHandler_getTempData();
 	struct ServoLimits limits = dataHandler_getLimits();
-
-	limitResult result = co2Handler_compareData(tempData, limits.minTempLimit, limits.maxTempLimit);
+	int16_t minTempLimit = limits.minTempLimit;
+	int16_t maxTempLimit = limits.maxTempLimit;
+	
+	limitResult result = servo_compareTemperatureData(tempData, minTempLimit, maxTempLimit);
 
 	if(result == BELLOW)
 	{
@@ -89,6 +105,10 @@ void servoHandler_run(void)
 	else if(result == ABOVE)
 	{
 		servo_turnOn();
+	}
+	else if(result == BETWEEN)
+	{
+		printf("Terrarium temperature stable");
 	}
 
 }

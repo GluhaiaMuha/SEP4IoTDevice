@@ -27,4 +27,5 @@ void dataHandler_setCo2(uint16_t sensorCo2);
 uint16_t dataHandler_getCo2Data();
 
 struct ServoLimits dataHandler_getLimits();
-void dataHandler_setTempLimits(int16_t minTemp, int16_t maxTemp);
+void dataHandler_setTempLimits(int16_t minTempLimit, int16_t maxTempLimit);
+
