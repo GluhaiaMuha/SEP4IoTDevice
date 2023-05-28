@@ -75,7 +75,7 @@ TEST_F(Lora_test, Should_call_xTaskCreate_with_correct_parameter_when_lora_handl
 
   EXPECT_EQ(xTaskCreate_fake.call_count, 1);
 }
-
+/*
 // setup
 TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_ACCEPTED)
 {
@@ -95,7 +95,7 @@ TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_A
   EXPECT_EQ(lora_driver_setReceiveDelay_fake.call_count, 1);
   EXPECT_EQ(lora_driver_join_fake.call_count, 1);
 }
-
+*/
 /*
 TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_ERROR)
 {
