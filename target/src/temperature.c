@@ -1,3 +1,4 @@
+
 /*
  * temperature.c
  *
@@ -15,19 +16,17 @@
 #include <task.h>
 
 #include <temperature.h>
-#include <hih8120.h>
+#include "hih8120.h"
 
+//Buffer for storing sensor data for temperature_getAvgTemperature(); method
 #define BUFFER_SIZE 10
-int16_t readings[BUFFER_SIZE];
 
-static int16_t temperatures[10];
-static int indexOfLatestTemperature = 0;
+int16_t readings[BUFFER_SIZE];
 
 TickType_t xLastWakeTime;
 TickType_t xFrequency1;
 TickType_t xFrequency2;
 TickType_t xFrequency3;
-
 
 void temperature_create(){
 	hih8120_driverReturnCode_t result = hih8120_initialise();
@@ -64,19 +63,24 @@ void temperature_measure(){
 }
 
 int16_t temperature_getLatestTemperature(){
-	int16_t measuredTemperature =  hih8120_getTemperature_x10();
-	printf("Latest temperature: %d\n", measuredTemperature);
 	
+	int16_t measuredTemperature = hih8120_getTemperature_x10();
+	printf("Latest recorded temp: %d\n", measuredTemperature);
+	return measuredTemperature;
+}
+int16_t temperature_getLatestTemperatureWithoutPrint(){
+	
+	int16_t measuredTemperature = hih8120_getTemperature_x10();
 	return measuredTemperature;
 }
 
 int16_t humidity_getLatestHumidity()
 {
 	int16_t measureHumidity = hih8120_getHumidityPercent_x10();
-	printf("Latest Humidity Measured: %d\n", measureHumidity);
-	
+	printf("Latest recorded humidity: %d\n", measureHumidity);
 	return measureHumidity;
 }
+
 
 void store_data_in_buffer(int16_t reading)
 {
@@ -115,13 +119,40 @@ int16_t temperature_getAvgTemperature()
 		return 0;
 	}
 	
-	printf("Latest Average Temp read: %d\n", (int16_t)(sum/count));
-	return (int16_t)(sum/count);
+	int16_t average = sum/count;
+	
+	printf("Latest Average Temp read: %d\n", average);
+	return average;
+}
+
+int16_t get_minimum_value(int16_t readings[BUFFER_SIZE])
+{
+	int16_t min_value = readings[0];
+	for (int i = 1; i < BUFFER_SIZE; i++)
+	{
+		if (readings[i] < min_value)
+		{
+			min_value = readings[i];
+		}
+	}
+	return min_value;
+}
+
+int16_t get_maximum_value(int16_t readings[BUFFER_SIZE])
+{
+	int16_t max_value = readings[0];
+	for (int i = 1; i < BUFFER_SIZE; i++)
+	{
+		if (readings[i] > max_value)
+		{
+			max_value = readings[i];
+		}
+	}
+	return max_value;
 }
 
 
-//inline for performance improvement
-inline void temperature_task_init(){
+void temperature_task_init(){
 	xLastWakeTime = xTaskGetTickCount();
 	xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
 	xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
@@ -130,32 +161,32 @@ inline void temperature_task_init(){
 	temperature_create();
 }
 
-inline void temperature_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency1,TickType_t xFrequency2,TickType_t xFrequency3){
-	printf("Temperature Task started\n");
+void temperature_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency1,TickType_t xFrequency2,TickType_t xFrequency3){
+	printf("Temperature/Humidity Task started\n");
 		
 		temperature_wakeup();
-		xTaskDelayUntil(xLastWakeTime, xFrequency2);
+		vTaskDelay(xFrequency2);
 		
 		
 		temperature_measure();
-		xTaskDelayUntil(xLastWakeTime, xFrequency1);
+		vTaskDelay(xFrequency1);
 		
-		temperature_getLatestTemperature();
+		//Temp average
+		int16_t reading = temperature_getLatestTemperatureWithoutPrint();
+		store_data_in_buffer(reading);
+		
 		//wait 30 seconds for next measurement
-		xTaskDelayUntil(xLastWakeTime, xFrequency3);
+		xTaskDelayUntil(&xLastWakeTime, xFrequency3);
 }
-
 
 void temperature_task(void* pvParameters){
 	// Remove compiler warnings
 	(void)pvParameters;
-
+	
 	temperature_task_init();
 
 	for (;;)
-	{
-		/*We pass xLastWakeTime because
-		we need it for testing*/
+	{		
 		temperature_task_run(&xLastWakeTime, xFrequency1, xFrequency2, xFrequency3);
 	}
 }
