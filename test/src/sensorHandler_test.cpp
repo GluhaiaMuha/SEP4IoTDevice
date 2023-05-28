@@ -38,14 +38,13 @@ TEST_F(SensorHandler_test, Should_properly_initialize_variables_when_sensorHandl
   EXPECT_EQ(xFrequency, 30000/portTICK_PERIOD_MS);
 }
 
-/*
+
 TEST_F(SensorHandler_test, Should_call_freertos_methods_when_sensorHandler_task_run_is_called)
 {
-  extern TickType_t xLastWakeTime;
+  extern TickType_t xLatestWakeTime;
   TickType_t xFrequency = 30000 / portTICK_PERIOD_MS;
 
-  sensorHandler_task_run(&xLastWakeTime, xFrequency);
+  sensorHandler_task_run(&xLatestWakeTime, xFrequency);
 
   EXPECT_EQ(1, xTaskDelayUntil_fake.call_count);
 }
-*/
