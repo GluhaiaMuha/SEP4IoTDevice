@@ -191,7 +191,7 @@ TEST_F(Temperature_freertos_test, temperature_task_init_is_called)
   ASSERT_EQ(hih8120_initialise_fake.call_count, 1);
 }
 
-TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_temperature_task_run_is_called){
+TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_sensorHandler_task_run_is_called){
   TickType_t xLastWakeTime = xTaskGetTickCount();
 	TickType_t xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
 	TickType_t xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
