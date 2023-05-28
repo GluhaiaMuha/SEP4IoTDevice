@@ -41,15 +41,12 @@ void servo_turnOn()
 	rc_servo_setPosition(servoNo, position);
 	printf("Servo is turned on!\n");
 	
-	/*
+	
 	struct ServoLimits limits = dataHandler_getLimits();
 	int16_t minTempLimit = limits.minTempLimit;
 	int16_t maxTempLimit = limits.maxTempLimit;
 	
 	printf("Limits: %d %d\n", minTempLimit, maxTempLimit);
-	
-	For testing purpose, everything works
-	*/ 
 }
 void servo_turnOff()
 {

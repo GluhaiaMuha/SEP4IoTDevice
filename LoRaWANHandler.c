@@ -12,6 +12,8 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 #include <message_buffer.h>
+#include <display_7seg.h>
+
 
 #include "Headers/dataHandler.h"
 
@@ -24,6 +26,8 @@ void lora_handler_task( void *pvParameters );
 static lora_driver_payload_t _uplink_payload;
 
 extern MessageBufferHandle_t downLinkMessageBufferHandle;
+
+
 
 
 void lora_handler_initialise(UBaseType_t lora_handler_task_priority, MessageBufferHandle_t downLinkMessageBuffer)
@@ -136,6 +140,8 @@ void lora_handler_task( void *pvParameters )
 	
 	
 	TickType_t xLastWakeTime;
+	
+	const TickType_t xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
 	const TickType_t xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xLastWakeTime = xTaskGetTickCount();
 	
@@ -166,6 +172,7 @@ void lora_handler_task( void *pvParameters )
 		if ((rc = lora_driver_sendUploadMessage(false, &_uplink_payload)) == LORA_MAC_TX_OK )
 		{
 			printf("Uplink Sent without downlink to be received\n");
+			display_7seg_displayHex("202");
 		}
 		else if (rc == LORA_MAC_RX)
 		{
@@ -176,6 +183,7 @@ void lora_handler_task( void *pvParameters )
 			printf("Downlink data received: Min Temp:%d  Max Temp:%d\n", minTemperatureSetting, maxTemperatureSetting);
 			
 			dataHandler_setTempLimits(minTemperatureSetting, maxTemperatureSetting);
+			display_7seg_display(maxTemperatureSetting/10, 1);
 		}
 		
 		

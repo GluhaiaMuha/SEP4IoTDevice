@@ -12,6 +12,9 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
+#include <display_7seg.h>
+
+
 #include "Headers/dataHandler.h"
 #include "Headers/sensorHandler.h"
 #include "Headers/temperature.h"
@@ -32,15 +35,8 @@ void lora_handler_initialise(UBaseType_t lora_handler_task_priority);
 /*-----------------------------------------------------------*/
 void create_tasks_and_semaphores(void)
 {
-	if ( xTestSemaphore == NULL )  // Check to confirm that the Semaphore has not already been created.
-	{
-		xTestSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore.
-		if ( ( xTestSemaphore ) != NULL )
-		{
-			xSemaphoreGive( ( xTestSemaphore ) );  // Make the mutex available for use, by initially "Giving" the Semaphore.
-		}
-	}
-	
+	dataHandler_createSemaphoreAndMutexes();
+		
 	xTaskCreate(
 	sensorsHandler_task
 	,  "sensorHandlerTask"  // A name just for humans
@@ -81,6 +77,15 @@ void initialiseSystem()
 	
 	//Some default values for the Limits.
 	dataHandler_setTempLimits(240,260);
+	
+	// Here the call back function is not needed
+	display_7seg_initialise(NULL);
+	
+	// Power up the display
+	display_7seg_powerUp();
+	
+	display_7seg_displayHex("B00B5");
+
 
 	// ****************** BELOW IS LoRaWAN initialisation **************************
 	// Status Leds driver
