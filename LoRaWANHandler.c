@@ -132,6 +132,7 @@ void lora_handler_task( void *pvParameters )
 	_uplink_payload.portNo = 2;
 	
 	lora_driver_payload_t downlinkPayload;
+	struct ServoLimits limits;
 	
 	
 	TickType_t xLastWakeTime;
@@ -174,7 +175,7 @@ void lora_handler_task( void *pvParameters )
 			
 			printf("Downlink data received: Min Temp:%d  Max Temp:%d\n", minTemperatureSetting, maxTemperatureSetting);
 			
-			dataHandler_setTempLimits(minTemperatureSetting,maxTemperatureSetting);
+			dataHandler_setTempLimits(minTemperatureSetting, maxTemperatureSetting);
 		}
 		
 		

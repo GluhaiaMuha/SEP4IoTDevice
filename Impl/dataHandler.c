@@ -16,7 +16,8 @@ static int16_t dataHandlerTemperature;
 static int16_t dataHandlerHumidity;
 static int16_t dataHandlerAvgTemperature;
 static uint16_t dataHandlerCo2;
-static struct ServoLimits limit;
+
+static struct ServoLimits servoLimits;
 
 
 
@@ -68,13 +69,12 @@ uint16_t dataHandler_getCo2Data()
 }
 
 struct ServoLimits dataHandler_getLimits(){
-	struct ServoLimits tempServoLimits;
-	limit = tempServoLimits;
-	
-	return limit;
+	   return servoLimits;
 }
 
-void dataHandler_setTempLimits(int16_t minTemp, int16_t maxTemp){
-	limit.minTempLimit = minTemp;
-	limit.maxTempLimit = maxTemp;
+void dataHandler_setTempLimits(int16_t minTempLimit, int16_t maxTempLimit){
+	   servoLimits.minTempLimit = minTempLimit;
+	   servoLimits.maxTempLimit = maxTempLimit;
 }
+
+

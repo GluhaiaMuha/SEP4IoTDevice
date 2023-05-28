@@ -12,6 +12,7 @@
 #include <lora_driver.h>
 #include <status_leds.h>
 
+#include "Headers/dataHandler.h"
 #include "Headers/sensorHandler.h"
 #include "Headers/temperature.h"
 #include "Headers/servo.h"
@@ -77,6 +78,9 @@ void initialiseSystem()
 	
 	// Let's create some tasks
 	create_tasks_and_semaphores();
+	
+	//Some default values for the Limits.
+	dataHandler_setTempLimits(240,260);
 
 	// ****************** BELOW IS LoRaWAN initialisation **************************
 	// Status Leds driver
