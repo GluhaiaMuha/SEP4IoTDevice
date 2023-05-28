@@ -3,6 +3,7 @@ target_sources(
     temperature_test.cpp
     co2_test.cpp
     dataHandler_test.cpp
+    sensorHandler_test.cpp
     lora_test.cpp
 )
 
