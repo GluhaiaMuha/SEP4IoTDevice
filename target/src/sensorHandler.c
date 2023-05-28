@@ -45,13 +45,13 @@ void sensorsHandler_createSensors()
 /************************************************************************/
 /* Responsible for handling sensors                                     */
 /************************************************************************/
-void sensorHandler_init()
+void sensorHandler_task_init()
 {
 	xLastWakeTime = xTaskGetTickCount();
 	xFrequency = 30000 / portTICK_PERIOD_MS; // 300000 ms == 5 mins
 }
 
-void sensorHandler_run(TickType_t* xLastWakeTime, TickType_t xFrequency)
+void sensorHandler_task_run(TickType_t* xLastWakeTime, TickType_t xFrequency)
 {
 	printf("SensorHandler Task Started\n");
 	xTaskDelayUntil(&xLastWakeTime, xFrequency);
@@ -76,6 +76,6 @@ void sensorsHandler_task(void *pvParameters)
 
 	for (;;)
 	{
-		sensorHandler_run(xLastWakeTime, xFrequency);
+		sensorHandler_task_run(&xLastWakeTime, xFrequency);
 	}
 }
