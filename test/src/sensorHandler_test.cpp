@@ -47,5 +47,4 @@ TEST_F(SensorHandler_test, Should_call_freertos_methods_when_sensorHandler_task_
   sensorHandler_task_run(&xLastWakeTime, xFrequency);
 
   EXPECT_EQ(1, xTaskDelayUntil_fake.call_count);
-  EXPECT_STRNE("SensorHandler", "Task", "Started");
 }
