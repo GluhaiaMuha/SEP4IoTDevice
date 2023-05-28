@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/GluhaiaMuha/SEP4IoTDevice/badge.svg)](https://coveralls.io/github/GluhaiaMuha/SEP4IoTDevice)
+[![Coverage Status](https://coveralls.io/repos/github/GluhaiaMuha/SEP4IoTDevice/badge.svg?branch=refs/heads/project_test_setup)](https://coveralls.io/github/GluhaiaMuha/SEP4IoTDevice?branch=refs/heads/project_test_setup)
 
 # Setting up the project
 In order to run the tests make sure you have installed:
