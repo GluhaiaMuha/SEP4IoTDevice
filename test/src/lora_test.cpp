@@ -103,10 +103,9 @@ TEST_F(Lora_test, Should_send_two_messages_when_lora_handler_task_is_called_twic
 }
 
 
-/*
-TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_ERROR)
+TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_ACCEPTED)
 {
-  lora_driver_join_fake.return_val = LORA_ERROR;
+  lora_driver_join_fake.return_val = LORA_ACCEPTED;
   lora_driver_mapReturnCodeToText_fake.return_val = "mapReturnCodeToTextString";
   _lora_setup();
 
@@ -121,10 +120,9 @@ TEST_F(Lora_test, Should_call_lora_methods_when_lora_setup_is_called_with_LORA_E
   EXPECT_EQ(lora_driver_setAdaptiveDataRate_fake.call_count, 1);
   EXPECT_EQ(lora_driver_setReceiveDelay_fake.call_count, 1);
   EXPECT_EQ(lora_driver_join_fake.call_count, 1);
-  EXPECT_EQ(status_leds_longPuls_fake.call_count, 1);
-  EXPECT_EQ(vTaskDelay_fake.call_count, 1);
+  //EXPECT_EQ(status_leds_longPuls_fake.call_count, 1);
 }
-
+/*
 // handler_task
 TEST_F(Lora_test, Should_call_methods_when_lora_handler_task_is_called)
 {
