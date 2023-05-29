@@ -19,6 +19,7 @@
 static int16_t lastTempRecorded;
 static int16_t lastHumidityRecorded;
 static int16_t lastAvgRecorded;
+static uint16_t lastCo2Recorded;
 static uint16_t ppm;
 
 TickType_t xLatestWakeTime;
