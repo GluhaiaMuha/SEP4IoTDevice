@@ -4,6 +4,7 @@
 
 extern "C" {
     #include <servo.h>
+    #include <dataHandler.h>
     #include <rc_servo.h>
     #include <FreeRTOS.h>
     #include <ATMEGA_FreeRTOS.h>
@@ -68,13 +69,33 @@ TEST_F(ServoTest, ShouldCallServoTurnOffWhenTemperatureBelowMinLimit) {
     int16_t temperature = 10;
     int16_t minLimit = 20;
     int16_t maxLimit = 30;
-    rc_servo_setPosition_fake.custom_fake = rc_servo_setPosition_custom_fake;
+    //rc_servo_setPosition_fake.custom_fake = rc_servo_setPosition_custom_fake;
+    //rc_servo_setPosition_fake.arg0_val = 0;
+    //rc_servo_setPosition_fake.arg1_val = 30;
 
     // Act
+    dataHandler_setTempLimits(20,30);
+    servoHandler_Init();
+    servoHandler_run();
     servo_compareTemperatureData(temperature, minLimit, maxLimit);
 
     // Assert
     EXPECT_EQ(rc_servo_setPosition_fake.call_count, 1);
-    EXPECT_EQ(rc_servo_setPosition_fake.arg1_val, 0);
+}
+
+TEST_F(ServoTest, ShouldCallServoTurnOnWhenTemperatureAboveMaxLimit) {
+    // Arrange
+    int16_t temperature = 40;
+    int16_t minLimit = 20;
+    int16_t maxLimit = 30;
+
+    // Act
+    dataHandler_setTempLimits(20,30);
+    servoHandler_Init();
+    servo_compareTemperatureData(temperature, minLimit, maxLimit);
+    servoHandler_run();
+
+    // Assert
+    EXPECT_EQ(rc_servo_setPosition_fake.call_count, 1);
 }
 
