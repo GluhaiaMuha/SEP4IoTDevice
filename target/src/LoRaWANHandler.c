@@ -20,7 +20,7 @@
 #define LORA_appKEY "70392C359F1F97A044173202961DB664"
 
 TickType_t xWakeTime;
-TickType_t xFrequency;
+TickType_t xFREQUENCY;
 
 void lora_handler_task(void *pvParameters);
 
@@ -131,13 +131,13 @@ void lora_handler_task_init()
 	_uplink_payload.len = 8;
 	_uplink_payload.portNo = 2;
 
-	xFrequency = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
+	xFREQUENCY = pdMS_TO_TICKS(300000UL); // Upload message every 5 minutes (300000 ms)
 	xWakeTime = xTaskGetTickCount();
 }
 
-void lora_handler_run(TickType_t* xWakeTime, TickType_t xFrequency)
+void lora_handler_run(TickType_t* xWakeTime, TickType_t xFREQUENCY)
 {
-	xTaskDelayUntil(&xWakeTime, xFrequency);
+	xTaskDelayUntil(&xWakeTime, xFREQUENCY);
 
 	uint16_t hum = dataHandler_getHumData();
 	int16_t temp = dataHandler_getTempData();
@@ -162,6 +162,6 @@ void lora_handler_task(void *pvParameters)
 {
 	for (;;)
 	{
-		lora_handler_run(&xWakeTime, xFrequency);
+		lora_handler_run(&xWakeTime, xFREQUENCY);
 	}
 }
