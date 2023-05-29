@@ -1,3 +1,12 @@
+/*
+ * temperature.c
+ *
+ * Responsible for the Temperature Sensor HIH8120
+ *
+ * Created: 5/1/2023 9:51:46 PM
+ *  Author: Marius
+ */ 
+
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>

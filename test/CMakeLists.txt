@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "--coverage")
 set(CMAKE_C_FLAGS "--coverage")
 
-
 set(DOWNLOAD_EXTRACT_TIMESTAMP true)
 
 include(FetchContent)
@@ -25,7 +24,8 @@ FetchContent_MakeAvailable(googletest )
 set(SOURCES_TEST
     src/co2_test.cpp
     src/temperature_test.cpp
-    src/temperature_test_freertos.cpp
+    src/dataHandler_test.cpp
+    src/sensorHandler_test.cpp
     src/lora_test.cpp
     src/servo_test.cpp
     src/FreeRTOS_defs/FreeRTOS_FFF_MocksDefinitions.cpp

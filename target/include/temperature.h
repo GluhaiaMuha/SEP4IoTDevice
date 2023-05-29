@@ -1,3 +1,11 @@
+/*
+ * temperature.h
+ *
+ * Created: 5/1/2023 9:51:31 PM
+ *  Author: Marius
+ */ 
+
+
 #pragma once
 #include <stdlib.h>
 #include <stdint.h>
@@ -19,3 +27,5 @@ int16_t get_minimum_value(int16_t readings[]);
 
 //to set buffer for testing
 extern int16_t readings[BUFFER_SIZE];
+extern TickType_t xLastWakeTime;
+
