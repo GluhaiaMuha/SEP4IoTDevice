@@ -1,4 +1,3 @@
-
 /*
  * temperature.c
  *

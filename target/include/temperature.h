@@ -1,4 +1,3 @@
-
 /*
  * temperature.h
  *
@@ -29,3 +28,4 @@ int16_t get_minimum_value(int16_t readings[]);
 //to set buffer for testing
 extern int16_t readings[BUFFER_SIZE];
 extern TickType_t xLastWakeTime;
+

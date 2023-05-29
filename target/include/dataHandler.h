@@ -1,11 +1,3 @@
-
-/*
- * dataHandler.h
- *
- * Created: 5/1/2023 9:43:08 PM
- *  Author: Marius
- */ 
-
 #pragma once
 #include "stdint.h"
 

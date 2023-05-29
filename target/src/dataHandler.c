@@ -67,8 +67,12 @@ uint16_t dataHandler_getCo2Data()
 	return dataHandlerCo2;
 }
 
-struct ServoLimits dataHandler_getLimits(){	
-	return limit;
+struct ServoLimits dataHandler_getLimits(){
+	struct ServoLimits tempServoLimits;
+    tempServoLimits.minTempLimit = limit.minTempLimit;
+    tempServoLimits.maxTempLimit = limit.maxTempLimit;
+    
+    return tempServoLimits;
 }
 
 void dataHandler_setTempLimits(int16_t minTemp, int16_t maxTemp){

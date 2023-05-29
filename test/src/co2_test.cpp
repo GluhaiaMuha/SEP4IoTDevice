@@ -155,4 +155,3 @@ TEST_F(CO2_test, Should_set_last_reading_to_specific_value)
  //   EXPECT_EQ(mh_z19_takeMeassuring_fake.call_count, 1); // Assuming it's called at least once
 // }
 
-

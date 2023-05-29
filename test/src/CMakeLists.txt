@@ -5,6 +5,7 @@ target_sources(
     dataHandler_test.cpp
     sensorHandler_test.cpp
     lora_test.cpp
+    servo_test.cpp
 )
 
 include_directories()

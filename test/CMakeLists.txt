@@ -27,14 +27,18 @@ set(SOURCES_TEST
     src/dataHandler_test.cpp
     src/sensorHandler_test.cpp
     src/lora_test.cpp
+    src/servo_test.cpp
     src/FreeRTOS_defs/FreeRTOS_FFF_MocksDefinitions.cpp
     ../target/src/co2.c
     ../target/src/temperature.c
     ../target/src/LoRaWANHandler.c
     ../target/src/dataHandler.c
     ../target/src/sensorHandler.c
+    ../target/src/servo.c
     ${SRCS}
 )
+
+
 
 
 # This makes the test.cpp files able to #include target libraries without errors.  
