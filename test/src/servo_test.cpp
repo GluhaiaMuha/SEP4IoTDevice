@@ -99,20 +99,6 @@ TEST_F(ServoTest, ShouldCallServoTurnOnWhenTemperatureAboveMaxLimit) {
     EXPECT_EQ(rc_servo_setPosition_fake.call_count, 1);
 }
 
-TEST_F(ServoTest, ShouldCallServoTurnOnWhenTemperatureAboveMaxLimit) {
-    // Arrange
-    int16_t temperature = 40;
-    int16_t minLimit = 20;
-    int16_t maxLimit = 30;
-    rc_servo_setPosition_fake.custom_fake = rc_servo_setPosition_custom_fake;
-
-    // Act
-    servo_compareTemperatureData(temperature, minLimit, maxLimit);
-
-    // Assert
-    EXPECT_EQ(rc_servo_setPosition_fake.call_count, 1);
-    EXPECT_EQ(rc_servo_setPosition_fake.arg1_val, 100);
-}
 
 TEST_F(ServoTest, ShouldNotCallServoTurnOnOrServoTurnOffWhenTemperatureWithinLimits) {
     // Arrange
