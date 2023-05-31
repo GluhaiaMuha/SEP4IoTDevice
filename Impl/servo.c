@@ -105,7 +105,7 @@ void servoHandler_run(void)
 	}
 	else if(result == BETWEEN)
 	{
-		printf("Terrarium temperature stable");
+		printf("Terrarium temperature stable\n");
 	}
 
 }
