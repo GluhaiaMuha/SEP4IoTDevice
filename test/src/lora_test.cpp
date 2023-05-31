@@ -70,27 +70,33 @@ protected:
 // initialise
 TEST_F(Lora_test, Should_call_xTaskCreate_with_correct_parameter_when_lora_handler_initialise_is_called)
 {
+  //Arrange
   UBaseType_t priority = 2;
-
+  //Act
   lora_handler_initialise(priority);
-
+  //Assert
   EXPECT_EQ(xTaskCreate_fake.call_count, 1);
 }
 
 TEST_F(Lora_test, Should_call_lora_driver_sendUploadMessage_when_lora_handler_run_is_called)
 {
+  //Arrange
   TickType_t xWakeTime;
   TickType_t xFrequency = 30000 / portTICK_PERIOD_MS;
   lora_driver_join_fake.return_val = LORA_ACCEPTED;
   lora_driver_sendUploadMessage_fake.return_val = LORA_ACCEPTED;
+  //Act
   lora_handler_run(&xWakeTime , xFrequency);
+  //Assert
   EXPECT_EQ(lora_driver_sendUploadMessage_fake.call_count, 1);
 }
 
 TEST_F(Lora_test, Should_send_two_messages_when_lora_handler_task_is_called_twice)
 {
+  //Arrange
   TickType_t xWakeTime;
   TickType_t xFrequency = 30000 / portTICK_PERIOD_MS;
+  //Act
   lora_driver_join_fake.return_val = LORA_ACCEPTED;
   lora_driver_sendUploadMessage_fake.return_val = LORA_ACCEPTED;
 
@@ -98,7 +104,7 @@ TEST_F(Lora_test, Should_send_two_messages_when_lora_handler_task_is_called_twic
   {
     lora_handler_run(&xWakeTime , xFrequency);
   }
-
+  //Assert
   EXPECT_EQ(lora_driver_sendUploadMessage_fake.call_count, 2);
 }
 
