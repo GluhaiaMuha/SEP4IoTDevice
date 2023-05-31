@@ -93,12 +93,14 @@ TEST_F(Temperature_test, Should_return_correct_value_when_humidity_getLatestHumi
 }
 
 TEST_F(Temperature_test, Should_store_data_in_buffer){
+  //Arrange
   //clear readings
   memset(readings, 0, sizeof(readings));
-
+  //Act
   store_data_in_buffer(10);
   store_data_in_buffer(11);
   store_data_in_buffer(12);
+  //Assert
   EXPECT_EQ(readings[0], 10);
   EXPECT_EQ(readings[1], 11);
   EXPECT_EQ(readings[2], 12);
@@ -106,10 +108,10 @@ TEST_F(Temperature_test, Should_store_data_in_buffer){
 
 TEST_F(Temperature_test, Should_overwrite_readings_when_buffer_is_full){
   //For BUFFER_SIZE = 10
-
+  //Assert
   //clear readings
   memset(readings, 0, sizeof(readings));
-
+  //Act
   store_data_in_buffer(10);
   store_data_in_buffer(11);
   store_data_in_buffer(12);
@@ -124,45 +126,50 @@ TEST_F(Temperature_test, Should_overwrite_readings_when_buffer_is_full){
 
   store_data_in_buffer(19);
   store_data_in_buffer(20);
+  //Assert
   EXPECT_EQ(readings[0], 11);
 }
 
 TEST_F(Temperature_test, Should_return_correct_value_when_temperature_getAvgTemperature_is_called)
 {
   //clear readings
+  //Arrange
   memset(readings, 0, sizeof(readings));
-
+  //Act
   store_data_in_buffer(10);
   store_data_in_buffer(20);
   store_data_in_buffer(30);
-  
+  //Assert
   EXPECT_EQ(temperature_getAvgTemperature(), 20);
 }
 
 TEST_F(Temperature_test, Should_return_0_when_readings_buffer_is_empty_when_temperature_getAvgTemperature_is_called)
 {
+  //Arrange
   memset(readings, 0, sizeof(readings));
-
+  //Act and Assert
   EXPECT_EQ(temperature_getAvgTemperature(), 0);
 }
 
 TEST_F(Temperature_test, Should_return_min_value_out_of_all_readings_when_get_minimum_value_is_called)
 {
+  //Arrange
   int16_t readings[BUFFER_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int16_t expected_min = 1;
-
+  //Act
   int16_t result = get_minimum_value(readings);
-
+  //Assert
   EXPECT_EQ(result, expected_min);
 }
 
 TEST_F(Temperature_test, Should_return_max_value_out_of_all_readings_when_get_minimum_value_is_called)
 {
+  //Arrange
   int16_t readings[BUFFER_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   int16_t expected_max = 10;
-
+   //Act
   int16_t result = get_maximum_value(readings);
-
+  //Assert
   EXPECT_EQ(result, expected_max);
 }
 
@@ -186,18 +193,20 @@ protected:
 
 TEST_F(Temperature_freertos_test, temperature_task_init_is_called)
 {
+  //Act
   temperature_task_init();
-
+  //Assert
   ASSERT_EQ(hih8120_initialise_fake.call_count, 1);
 }
 
 TEST_F(Temperature_freertos_test, Should_call_freertos_methods_when_sensorHandler_task_run_is_called){
+  //Arrange
   TickType_t xLastWakeTime = xTaskGetTickCount();
 	TickType_t xFrequency1 = 1/portTICK_PERIOD_MS; // 1 ms
 	TickType_t xFrequency2 = 50/portTICK_PERIOD_MS; // 50 ms
 	TickType_t xFrequency3 = 30000/portTICK_PERIOD_MS; // 30000 ms
-
+  //Act
   temperature_task_run(&xLastWakeTime, xFrequency1, xFrequency2, xFrequency3);
-
+  //Assert
   EXPECT_EQ(2, vTaskDelay_fake.call_count);
 }
