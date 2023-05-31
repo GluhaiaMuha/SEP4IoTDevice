@@ -7,6 +7,7 @@ extern "C"
 	#include <mh_z19.h>
 }
 
+//FAKE FUNCTIONS
 FAKE_VOID_FUNC(mh_z19_initialise, serial_comPort_t);
 FAKE_VALUE_FUNC(mh_z19_returnCode_t, mh_z19_takeMeassuring);
 
